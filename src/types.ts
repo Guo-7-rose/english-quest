@@ -48,6 +48,9 @@ export interface Profile {
   lastFreezeGrant: string | null;   // YYYY-MM-DD 上次发卡
   lifetimeWords: number;            // 累计打对词数
   maxCombo: number;                 // 历史最高连击
+  dailyWordsToday: number;          // 今日已打对词数
+  dailyGrammarToday: number;        // 今日已完成语法单元数
+  lastActiveDate: string | null;    // 上次学习日期（跨天重置计数）
 }
 
 export interface GrammarQuestion { q: string; options: string[]; answer: number; }

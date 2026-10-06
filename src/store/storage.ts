@@ -8,7 +8,7 @@ export function defaultState(): AppState {
     xp: 0, level: 1, streak: 0, lastCheckinDate: null, checkinDates: [],
     totalMinutes: 0, dailyGoal: { words: 30, grammarUnits: 2 },
     goalsMetToday: false, freezeCards: 0, lastFreezeGrant: null,
-    lifetimeWords: 0, maxCombo: 0,
+    lifetimeWords: 0, maxCombo: 0, dailyWordsToday: 0, dailyGrammarToday: 0, lastActiveDate: null,
   };
   const settings: Settings = { sound: true, tts: true, showMeaning: true, theme: "green" };
   return {
