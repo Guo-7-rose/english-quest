@@ -1,3 +1,4 @@
 import "./styles/base.css";
+import "./styles/components.css";
 const app = document.getElementById("app")!;
 app.innerHTML = `<div class="hello">英语闯关岛</div>`;
