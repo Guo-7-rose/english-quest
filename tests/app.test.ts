@@ -78,4 +78,20 @@ describe("app shell 集成", () => {
     opt.click();
     expect(opt.className).toContain("ok");
   });
+
+  it("数据中心：概览/热力图/成就墙/错题本", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="stats"]') as HTMLElement).click();
+    expect(document.querySelectorAll("#view-stats .badge").length).toBe(8);
+    expect(document.querySelector("#view-stats")!.textContent).toContain("错题本");
+    expect(document.querySelector("#view-stats .heatmap .day")).not.toBeNull();
+  });
+
+  it("设置：开关/每日目标/主题渲染", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="settings"]') as HTMLElement).click();
+    expect(document.querySelector("#view-settings")!.textContent).toContain("每日目标");
+    expect(document.querySelector("#view-settings")!.textContent).toContain("重置全部数据");
+    expect(document.querySelectorAll("#view-settings .btn").length).toBeGreaterThan(6);
+  });
 });

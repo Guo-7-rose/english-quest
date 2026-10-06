@@ -8,8 +8,10 @@ import { renderTypingView, bindTyping, attachTypingKeys } from "./views/typing";
 import { renderGrammar, bindGrammar } from "./views/grammar";
 import { renderStats } from "./views/stats";
 import { renderSettings, applyTheme } from "./views/settings";
+import { renderQuiz, bindQuiz } from "./views/quiz";
 import { getStage } from "./data/words";
 import { initAudio } from "./fx/audio";
+import type { StageId } from "./types";
 
 let state: AppState = loadAll();
 const app = document.getElementById("app")!;
@@ -46,7 +48,7 @@ function refreshTopbar(): void {
     <div class="pill">🏅 Lv.<span class="val">${state.profile.level}</span></div>`;
 }
 
-function navigate(view: string, chapterId: string | null = null): void {
+function navigate(view: string, chapterId: string | null = null, stage: StageId | null = null): void {
   currentView = view;
   currentChapterId = chapterId;
   renderNav();
@@ -67,11 +69,15 @@ function navigate(view: string, chapterId: string | null = null): void {
   else if (view === "grammar") renderGrammar(el, state);
   else if (view === "stats") renderStats(el, state);
   else if (view === "settings") renderSettings(el, state);
+  else if (view === "quiz") {
+    if (stage) renderQuiz(el, state, stage);
+    else renderMap(el, state);
+  }
 }
 
 window.addEventListener("eq:navigate", (e) => {
-  const d = (e as CustomEvent).detail as { view: string; chapterId?: string };
-  navigate(d.view, d.chapterId ?? null);
+  const d = (e as CustomEvent).detail as { view: string; chapterId?: string; stage?: StageId };
+  navigate(d.view, d.chapterId ?? null, d.stage ?? null);
 });
 
 document.getElementById("logo")!.addEventListener("click", () => navigate("home"));
@@ -79,6 +85,7 @@ document.getElementById("logo")!.addEventListener("click", () => navigate("home"
 function persist(): void { save(state); }
 bindTyping(state, persist, refreshTopbar);
 bindGrammar(state, persist);
+bindQuiz(state, persist);
 attachTypingKeys();
 applyTheme(state.settings.theme);
 renderNav();

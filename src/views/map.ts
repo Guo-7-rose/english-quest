@@ -35,6 +35,18 @@ export function renderMap(root: HTMLElement, state: AppState): void {
       });
       nodes.appendChild(node);
     });
+    // 阶段测验节点（全部章节通关后解锁）
+    const allDone = chs.every(c => state.stageProgress[meta.id as 1 | 2 | 3 | 4][c.id]?.state === "done");
+    const quizNode = document.createElement("div");
+    quizNode.className = "node" + (allDone ? " master" : " locked");
+    quizNode.innerHTML = `<div class="bubble">${allDone ? "🎓" : "🔒"}</div>
+      <div class="stars"></div>
+      <div class="label">阶段测验</div>`;
+    quizNode.addEventListener("click", () => {
+      if (!allDone) { toast("🔒 通关本阶段全部关卡后解锁阶段测验"); return; }
+      window.dispatchEvent(new CustomEvent("eq:navigate", { detail: { view: "quiz", stage: meta.id } }));
+    });
+    nodes.appendChild(quizNode);
     cont.appendChild(card);
   });
   root.appendChild(cont);
