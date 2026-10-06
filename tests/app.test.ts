@@ -58,4 +58,19 @@ describe("app shell 集成", () => {
     expect(document.querySelector("#hintZh")!.textContent).toContain("猫");
     expect(document.querySelectorAll(".progress-dots .dot.err").length).toBe(1);
   });
+
+  it("语法：单元列表 → 作答 → 得分", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="grammar"]') as HTMLElement).click();
+    const rows = document.querySelectorAll("#view-grammar .card");
+    expect(rows.length).toBe(11); // 标题卡 + 10 单元
+    // 第 1 单元开始
+    const firstStart = document.querySelector("#view-grammar .card button") as HTMLElement;
+    firstStart.click();
+    expect(document.querySelector(".knowledge")!.textContent).toContain("be 动词");
+    // 答对第 1 题（点正确选项 data-i = answer 0）
+    const opt = document.querySelector('.quiz-option[data-i="0"]') as HTMLElement;
+    opt.click();
+    expect(opt.className).toContain("ok");
+  });
 });

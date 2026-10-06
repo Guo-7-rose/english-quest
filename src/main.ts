@@ -5,7 +5,7 @@ import type { AppState } from "./types";
 import { renderHome } from "./views/home";
 import { renderMap } from "./views/map";
 import { renderTypingView, bindTyping, attachTypingKeys } from "./views/typing";
-import { renderGrammar } from "./views/grammar";
+import { renderGrammar, bindGrammar } from "./views/grammar";
 import { renderStats } from "./views/stats";
 import { renderSettings, applyTheme } from "./views/settings";
 import { getStage } from "./data/words";
@@ -78,6 +78,7 @@ document.getElementById("logo")!.addEventListener("click", () => navigate("home"
 
 function persist(): void { save(state); }
 bindTyping(state, persist, refreshTopbar);
+bindGrammar(state, persist);
 attachTypingKeys();
 applyTheme(state.settings.theme);
 renderNav();
