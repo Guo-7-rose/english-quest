@@ -36,6 +36,6 @@ describe("progress", () => {
 
   it("下一章 id", () => {
     expect(nextChapterId("1-1")).toBe("1-2");
-    expect(nextChapterId("4-30")).toBeNull();
+    expect(nextChapterId("4-91")).toBeNull();  // 阶段四最后一章
   });
 });

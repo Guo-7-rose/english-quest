@@ -1,4 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import { getChapter } from "../src/data/words";
+
+const ch1 = getChapter("1-1")!;
+const first = ch1.words[0]!;
+const second = ch1.words[1]!;
 
 describe("app shell 集成", () => {
   beforeEach(() => {
@@ -30,19 +35,19 @@ describe("app shell 集成", () => {
     const node = document.querySelector("#view-map .node") as HTMLElement;
     node.click();
     expect(document.querySelector("#wordStage")).not.toBeNull();
-    expect(document.querySelector("#hintZh")!.textContent).toContain("苹果");
+    expect(document.querySelector("#hintZh")!.textContent).toContain(first.meaning[0]!.slice(0, 4));
   });
 
-  it("打字视图端到端：输入 apple 判对并推进", async () => {
+  it("打字视图端到端：输入首词判对并推进", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="typing"]') as HTMLElement).click();
     const type = (k: string) => document.dispatchEvent(new KeyboardEvent("keydown", { key: k }));
-    for (const ch of "apple") type(ch);
+    for (const ch of first.word) type(ch);
     // 逐字母着色
     expect(document.querySelector("#ch0")!.className).toContain("typed-ok");
     type("Enter");
-    // 推进到第 2 词 cat
-    expect(document.querySelector("#hintZh")!.textContent).toContain("猫");
+    // 推进到第 2 词
+    expect(document.querySelector("#hintZh")!.textContent).toContain(second.meaning[0]!.slice(0, 4));
     expect(document.querySelector("#comboBadge")!.textContent).toContain("x1");
     // XP 已增长
     expect(document.querySelector("#pills")!.textContent).toContain("10");
@@ -55,7 +60,7 @@ describe("app shell 集成", () => {
     type("x"); type("Enter");
     type("x"); type("Enter");
     type("Enter");
-    expect(document.querySelector("#hintZh")!.textContent).toContain("猫");
+    expect(document.querySelector("#hintZh")!.textContent).toContain(second.meaning[0]!.slice(0, 4));
     expect(document.querySelectorAll(".progress-dots .dot.err").length).toBe(1);
   });
 

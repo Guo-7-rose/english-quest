@@ -1,9 +1,12 @@
 import type { Chapter, StageId, Word } from "../types";
 import stage1 from "./words-stage1.json";
+import stage2 from "./words-stage2.json";
+import stage3 from "./words-stage3.json";
+import stage4 from "./words-stage4.json";
 
 export interface WordFormQuestion { wordId: string; prompt: string; answer: string; kind: string; }
 
-const RAW: unknown[] = [stage1];
+const RAW: unknown[] = [stage1, stage2, stage3, stage4];
 
 const KIND_KEYS: Array<[string, string, (w: Word, forms: string[]) => string]> = [
   ["s", "plural", (w) => `${w.word} 的复数形式是？`],
@@ -17,7 +20,7 @@ const KIND_KEYS: Array<[string, string, (w: Word, forms: string[]) => string]> =
 function buildStages(): Chapter[][] {
   const stages: Chapter[][] = [[], [], [], []];
   for (const entry of RAW) {
-    const d = (entry as { stage: number; chapters: Chapter[] });
+    const d = entry as { stage: number; chapters: Chapter[] };
     for (const ch of d.chapters) stages[ch.stage - 1]!.push({ ...ch, id: `${ch.stage}-${ch.no}` });
   }
   return stages;
