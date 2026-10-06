@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语闯关岛 · 样版原型</title>
+<style>
+  :root{
+    --green:#58CC02; --green-dark:#46A302; --green-shadow:#3A8500;
+    --yellow:#FFC800; --yellow-shadow:#DBA800;
+    --blue:#1CB0F6; --blue-shadow:#1899D6;
+    --purple:#CE82FF; --purple-shadow:#A568CC;
+    --red:#FF4B4B; --red-shadow:#D33131;
+    --ink:#3C3C3C; --gray:#777; --bg:#FFF7E8; --card:#FFFFFF;
+    --border:#E5E5E5;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Nunito","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    background:var(--bg); color:var(--ink);
+    min-height:100vh; display:flex; flex-direction:column; align-items:center;
+    user-select:none;
+  }
+  .app{width:min(920px,96vw); padding:16px 0 48px;}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  .logo{font-weight:900; font-size:26px; color:var(--green); letter-spacing:.5px; cursor:pointer;}
+  .logo span{color:var(--yellow); -webkit-text-stroke:1.2px #C9A100;}
+  .stats-pills{display:flex; gap:10px; align-items:center;}
+  .pill{
+    background:#fff; border:2px solid var(--border); border-bottom-width:4px;
+    border-radius:14px; padding:6px 12px; font-weight:800; font-size:14px;
+    display:flex; align-items:center; gap:6px; color:var(--ink);
+  }
+  .pill .val{color:var(--blue); font-size:16px;}
+  .pill.fire .val{color:#FF9600;}
+
+  /* ---------- nav ---------- */
+  nav{display:flex; gap:10px; margin:16px 0 20px; flex-wrap:wrap;}
+  .nav-btn{
+    font-family:inherit; font-weight:900; font-size:15px; letter-spacing:1px;
+    border:2px solid var(--border); border-bottom-width:4px; border-radius:14px;
+    background:#fff; color:var(--ink); padding:10px 18px; cursor:pointer;
+    transition:transform .06s ease, filter .12s ease;
+  }
+  .nav-btn:hover{filter:brightness(.97);}
+  .nav-btn:active{transform:translateY(3px); border-bottom-width:1px;}
+  .nav-btn.on{background:var(--green); border-color:var(--green-shadow); color:#fff;}
+
+  /* ---------- generic card ---------- */
+  .card{
+    background:var(--card); border:2px solid var(--border); border-radius:20px;
+    padding:20px; margin-bottom:16px;
+  }
+  h2{margin:0 0 12px; font-size:20px; font-weight:900;}
+  .muted{color:var(--gray); font-size:13px;}
+
+  /* ---------- dashboard ---------- */
+  .hero{display:flex; gap:16px; flex-wrap:wrap;}
+  .checkin-box{
+    flex:1.2; min-width:280px; background:linear-gradient(180deg,#FFE37A,#FFC800);
+    border:2px solid var(--yellow-shadow); border-bottom-width:6px; border-radius:20px;
+    padding:22px; text-align:center; position:relative; overflow:hidden;
+  }
+  .checkin-box .streak{font-size:44px; font-weight:900; color:#E66A00; line-height:1;}
+  .checkin-box .streak small{font-size:16px;}
+  .checkin-btn{
+    font-family:inherit; margin-top:14px; width:100%; font-size:20px; font-weight:900; color:#fff;
+    background:var(--green); border:2px solid var(--green-shadow); border-bottom-width:6px;
+    border-radius:16px; padding:14px; cursor:pointer; transition:transform .06s ease;
+    box-shadow:0 6px 0 var(--green-shadow);
+  }
+  .checkin-btn:active{transform:translateY(5px); box-shadow:0 1px 0 var(--green-shadow);}
+  .checkin-btn.done{background:#A8D98A; border-color:#87C06A; box-shadow:0 6px 0 #87C06A; cursor:default;}
+
+  .xp-box{flex:1; min-width:280px; display:flex; flex-direction:column; gap:12px; justify-content:center;}
+  .xp-row{display:flex; align-items:center; gap:10px; font-weight:800;}
+  .xp-bar{flex:1; height:18px; background:#E5E5E5; border-radius:10px; overflow:hidden; border:2px solid var(--border);}
+  .xp-fill{height:100%; width:0%; background:linear-gradient(90deg,#58CC02,#7CE222); border-radius:8px; transition:width .5s cubic-bezier(.34,1.56,.64,1);}
+  .level-badge{
+    width:52px; height:52px; border-radius:50%; background:var(--blue); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px;
+    border:3px solid #fff; box-shadow:0 0 0 2px var(--blue-shadow); flex-shrink:0;
+  }
+
+  .heatmap{display:grid; grid-template-columns:repeat(14,1fr); gap:5px; margin-top:12px;}
+  .heatmap .day{aspect-ratio:1; border-radius:4px; background:#EBEDF0;}
+  .heatmap .day.lv1{background:#C6E9B4;}
+  .heatmap .day.lv2{background:#8BD75A;}
+  .heatmap .day.lv3{background:#58CC02;}
+
+  /* ---------- map ---------- */
+  .stage{position:relative; padding:16px 16px 16px 60px; margin-bottom:14px;}
+  .stage .rail{position:absolute; left:28px; top:0; bottom:0; width:4px; background:var(--border); border-radius:2px;}
+  .stage .title{font-weight:900; font-size:17px; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .nodes{display:flex; gap:10px; flex-wrap:wrap;}
+  .node{
+    width:76px; text-align:center; cursor:pointer; position:relative;
+    transition:transform .08s ease;
+  }
+  .node:hover{transform:translateY(-3px);}
+  .node .bubble{
+    width:56px; height:56px; margin:0 auto 6px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:18px; color:#fff;
+    background:var(--blue); border:3px solid #fff; box-shadow:0 0 0 2px var(--blue-shadow), 0 4px 0 var(--blue-shadow);
+  }
+  .node.locked .bubble{background:#CFCFCF; box-shadow:0 0 0 2px #AFAFAF, 0 4px 0 #AFAFAF;}
+  .node.done .bubble{background:var(--green); box-shadow:0 0 0 2px var(--green-shadow), 0 4px 0 var(--green-shadow);}
+  .node .stars{font-size:11px; letter-spacing:1px;}
+  .node .label{font-size:11px; font-weight:800; color:var(--gray);}
+  .node.master .bubble{background:var(--purple); box-shadow:0 0 0 2px var(--purple-shadow), 0 4px 0 var(--purple-shadow);}
+
+  /* ---------- typing game ---------- */
+  .word-stage{
+    background:linear-gradient(180deg,#EAF9FF,#D9F1FF);
+    border:2px solid var(--blue-shadow); border-bottom-width:6px; border-radius:20px;
+    padding:26px 20px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hint-zh{font-size:22px; font-weight:900; margin-bottom:4px;}
+  .hint-ph{color:var(--gray); font-size:15px; font-weight:700; margin-bottom:18px; letter-spacing:1px;}
+  .letters{display:flex; justify-content:center; gap:6px; flex-wrap:wrap; min-height:64px; margin-bottom:10px;}
+  .letters .ch{
+    font-size:38px; font-weight:900; color:#B8C4CC; padding:2px 3px; border-radius:8px;
+    transition:transform .1s ease, color .1s ease;
+    text-transform:lowercase;
+  }
+  .letters .ch.typed-ok{color:var(--green);}
+  .letters .ch.typed-bad{color:var(--red); animation:shake .25s ease;}
+  .letters .ch.caret{box-shadow:inset 0 -4px 0 var(--blue);}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+  .word-stage.shake{animation:shake .3s ease;}
+  .progress-dots{display:flex; justify-content:center; gap:6px; margin-bottom:16px;}
+  .progress-dots .dot{width:10px; height:10px; border-radius:50%; background:#D8E4EC;}
+  .progress-dots .dot.on{background:var(--blue);}
+  .progress-dots .dot.err{background:var(--red);}
+  .live-stats{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; font-weight:900; font-size:14px;}
+  .live-stats .num{color:var(--blue); font-size:20px;}
+  .combo-badge{
+    position:absolute; top:14px; right:14px; background:var(--yellow);
+    border:2px solid var(--yellow-shadow); border-bottom-width:4px; border-radius:12px;
+    padding:6px 12px; font-weight:900; color:#E66A00; font-size:15px;
+    transform:scale(1); transition:transform .12s ease;
+  }
+  .combo-badge.pop{transform:scale(1.25);}
+  .combo-badge.hot{background:var(--red); border-color:var(--red-shadow); color:#fff;}
+
+  .mini-tip{margin-top:14px; font-size:13px; color:var(--gray); font-weight:700;}
+
+  /* ---------- particles ---------- */
+  .particle{position:absolute; pointer-events:none; font-size:20px; font-weight:900;
+    animation:fly .9s ease-out forwards; z-index:5;}
+  @keyframes fly{
+    0%{opacity:1; transform:translate(0,0) scale(.6) rotate(0deg);}
+    100%{opacity:0; transform:translate(var(--dx),var(--dy)) scale(1.4) rotate(var(--rot));}
+  }
+  .confetti{position:fixed; top:-20px; width:10px; height:16px; z-index:99; pointer-events:none;
+    animation:fall linear forwards;}
+  @keyframes fall{
+    0%{transform:translateY(0) rotate(0deg);}
+    100%{transform:translateY(105vh) rotate(720deg);}
+  }
+
+  .toast{
+    position:fixed; left:50%; bottom:36px; transform:translateX(-50%) translateY(80px);
+    background:var(--ink); color:#fff; font-weight:800; font-size:15px; padding:12px 22px;
+    border-radius:14px; opacity:0; transition:all .3s cubic-bezier(.34,1.56,.64,1); z-index:100;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="logo" onclick="switchView('home')">英闯岛<span>English Quest</span></div>
+    <div class="stats-pills">
+      <div class="pill fire">🔥 <span class="val" id="pillStreak">3</span> 天</div>
+      <div class="pill">⚡ <span class="val" id="pillXp">240</span> XP</div>
+      <div class="pill">🏅 Lv.<span class="val" id="pillLv">2</span></div>
+    </div>
+  </div>
+
+  <nav>
+    <button class="nav-btn on" id="navHome" onclick="switchView('home')">🏠 首页</button>
+    <button class="nav-btn" id="navMap" onclick="switchView('map')">🗺️ 闯关地图</button>
+    <button class="nav-btn" id="navType" onclick="switchView('type')">⌨️ 单词训练</button>
+    <button class="nav-btn" id="navGram" onclick="switchView('gram')">📖 语法训练</button>
+  </nav>
+
+  <!-- ============ HOME ============ -->
+  <section id="view-home">
+    <div class="hero">
+      <div class="checkin-box">
+        <div class="streak" id="streakBig">🔥 3 <small>天连续</small></div>
+        <div class="muted" style="color:#8A5B00;">坚持就是胜利！今天再来一组吧</div>
+        <button class="checkin-btn" id="checkinBtn" onclick="doCheckin()">✅ 今日打卡</button>
+      </div>
+      <div class="xp-box">
+        <div class="xp-row">
+          <div class="level-badge">Lv.2</div>
+          <div>
+            <div style="font-weight:900;">冒险者 · 新手村</div>
+            <div class="muted">距离下一等级还差 260 XP</div>
+          </div>
+        </div>
+        <div class="xp-row">
+          <div>⚡ 经验值</div>
+          <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:48%"></div></div>
+          <div id="xpText">240/500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📅 本月打卡日历</h2>
+      <div class="muted">连续打卡会上色更深哦（原型示意）</div>
+      <div class="heatmap" id="heatmap"></div>
+    </div>
+
+    <div class="card">
+      <h2>🎯 今日推荐任务</h2>
+      <div class="muted" style="margin-bottom:8px;">完成任务自动打卡 + 开启宝箱</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button class="nav-btn" style="border-color:var(--green-shadow);color:var(--green);" onclick="switchView('type')">⌨️ 背 20 个新词</button>
+        <button class="nav-btn" style="border-color:var(--blue-shadow);color:var(--blue);" onclick="switchView('type')">🔁 复习 10 个词</button>
+        <button class="nav-btn" style="border-color:var(--purple-shadow);color:var(--purple);" onclick="switchView('gram')">📖 学 1 个语法单元</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAP ============ -->
+  <section id="view-map" style="display:none;">
+    <div class="card stage">
+      <div class="rail"></div>
+      <div class="title">🟢 阶段一 · 基础 <span class="muted">小初核心词 + 语法入门</span></div>
+      <div class="nodes" id="stage1"></div>
+    </div>
+    <div class="card stage">
+      <div class="rail"></div>
+      <div class="title">🟡 阶段二 · 进阶 <span class="muted">高中 3500 词 + 语法进阶</span></div>
+      <div class="nodes" id="stage2"></div>
+    </div>
+    <div class="card stage">
+      <div class="rail"></div>
+      <div class="title">🔵 阶段三 · 高手 <span class="muted">四级词汇 + 语法高级</span></div>
+      <div class="nodes" id="stage3"></div>
+    </div>
+    <div class="card stage">
+      <div class="rail"></div>
+      <div class="title">🟣 阶段四 · 大师 <span class="muted">雅思/托福 + 长难句</span></div>
+      <div class="nodes" id="stage4"></div>
+    </div>
+  </section>
+
+  <!-- ============ TYPING ============ -->
+  <section id="view-type" style="display:none;">
+    <div class="word-stage" id="wordStage">
+      <div class="combo-badge" id="comboBadge">🔥 连击 x0</div>
+      <div class="hint-zh" id="hintZh">苹果</div>
+      <div class="hint-ph" id="hintPh">/ˈæpl/</div>
+      <div class="letters" id="letters"></div>
+      <div class="progress-dots" id="dots"></div>
+      <div class="live-stats">
+        <div>⏱ <span class="num" id="statTime">00:00</span></div>
+        <div>⌨️ 已打 <span class="num" id="statCount">0</span> 词</div>
+        <div>🚀 WPM <span class="num" id="statWpm">0</span></div>
+        <div>🎯 正确率 <span class="num" id="statAcc">100%</span></div>
+      </div>
+      <div class="mini-tip">看中文释义，盲打英文单词，回车确认（Esc 跳过）</div>
+    </div>
+    <div class="card">
+      <h2>🎮 玩法说明（样版演示 10 个词）</h2>
+      <div class="muted">· 打对 +10 XP，连击加成（x3 起 ×1.2，x10 起 ×1.5）<br>· 连击 5 / 10 / 20 触发特效里程碑<br>· 打错抖动提示，错两次显示答案并进「复习队列」<br>· 正式版会接入完整词库 + 间隔复习 + 星级评价</div>
+    </div>
+  </section>
+
+  <!-- ============ GRAMMAR ============ -->
+  <section id="view-gram" style="display:none;">
+    <div class="card">
+      <h2>📖 语法单元 · 一般现在时（示例）</h2>
+      <div class="muted" style="margin-bottom:10px;">先看知识卡片，再做选择题</div>
+      <div class="card" style="background:#FFFBE6; border-color:#FFE08A;">
+        <b>知识卡片：</b>表示经常性、习惯性的动作或客观事实。<br>
+        主语是第三人称单数（he/she/it）时，动词要加 -s / -es。<br>
+        <i>例：She <u>plays</u> the piano every day. / Water <u>boils</u> at 100°C.</i>
+      </div>
+      <div style="font-weight:900; margin:12px 0 8px;">Q1. He ___ to school by bus every morning.</div>
+      <div style="display:flex; flex-direction:column; gap:8px; max-width:420px;">
+        <button class="nav-btn" style="text-align:left;" onclick="answerGram(this,false)">A. go</button>
+        <button class="nav-btn" style="text-align:left;" onclick="answerGram(this,true)">B. goes</button>
+        <button class="nav-btn" style="text-align:left;" onclick="answerGram(this,false)">C. going</button>
+        <button class="nav-btn" style="text-align:left;" onclick="answerGram(this,false)">D. gone</button>
+      </div>
+      <div id="gramResult" class="muted" style="margin-top:10px;"></div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= 演示数据 ================= */
+const DEMO_WORDS = [
+  {w:"apple",      zh:"苹果",        ph:"/ˈæpl/"},
+  {w:"banana",     zh:"香蕉",        ph:"/bəˈnɑːnə/"},
+  {w:"cat",        zh:"猫",          ph:"/kæt/"},
+  {w:"dog",        zh:"狗",          ph:"/dɒɡ/"},
+  {w:"happy",      zh:"快乐的",      ph:"/ˈhæpi/"},
+  {w:"water",      zh:"水",          ph:"/ˈwɔːtə/"},
+  {w:"school",     zh:"学校",        ph:"/skuːl/"},
+  {w:"family",     zh:"家庭",        ph:"/ˈfæməli/"},
+  {w:"beautiful",  zh:"美丽的",      ph:"/ˈbjuːtɪfl/"},
+  {w:"knowledge",  zh:"知识",        ph:"/ˈnɒlɪdʒ/"},
+];
+
+/* ================= 状态 ================= */
+let state = {
+  streak: 3, xp: 240, level: 2, xpToNext: 500,
+  checkedIn: false,
+  idx: 0,          // 当前词索引
+  typed: "",       // 当前已输入
+  errCount: 0,     // 当前词错误次数
+  combo: 0, maxCombo: 0,
+  totalCount: 0, totalErr: 0,
+  startedAt: null,
+  results: [],     // 每词对错（进度点）
+  soundOn: true,
+};
+
+/* ================= 音效（WebAudio 合成，无需文件） ================= */
+let actx = null;
+function beep(freq, dur, type, vol){
+  if(!state.soundOn) return;
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol||0.15, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + dur);
+  }catch(e){}
+}
+const sCorrect = ()=>beep(880,.12,"triangle",.2);
+const sWrong   = ()=>beep(180,.25,"sawtooth",.15);
+const sLevelUp = ()=>{beep(523,.12,"square",.15); setTimeout(()=>beep(659,.12,"square",.15),120); setTimeout(()=>beep(784,.2,"square",.15),240);};
+
+/* ================= 视图切换 ================= */
+function switchView(v){
+  ["home","map","type","gram"].forEach(x=>{
+    document.getElementById("view-"+x).style.display = (x===v) ? "block" : "none";
+    document.getElementById("nav"+x[0].toUpperCase()+x.slice(1)).classList.toggle("on", x===v);
+  });
+  if(v==="type") renderWord();
+}
+
+/* ================= 打卡 ================= */
+function doCheckin(){
+  if(state.checkedIn) return;
+  state.checkedIn = true;
+  state.streak++;
+  const btn = document.getElementById("checkinBtn");
+  btn.textContent = "✅ 已打卡，明天继续！";
+  btn.classList.add("done");
+  document.getElementById("streakBig").innerHTML = "🔥 "+state.streak+" <small>天连续</small>";
+  document.getElementById("pillStreak").textContent = state.streak;
+  confettiBurst();
+  sLevelUp();
+  toast("🎉 打卡成功！连续 "+state.streak+" 天，+20 XP");
+  addXp(20);
+}
+
+/* ================= 热力图 ================= */
+(function buildHeatmap(){
+  const h = document.getElementById("heatmap");
+  for(let i=0;i<28;i++){
+    const d = document.createElement("div");
+    d.className = "day" + (i<10 ? " lv3" : i<16 ? " lv2" : i<22 ? " lv1" : "");
+    h.appendChild(d);
+  }
+})();
+
+/* ================= 路线图 ================= */
+(function buildMap(){
+  const mk = (container, n, done, master)=>{
+    const box = document.getElementById(container);
+    for(let i=1;i<=n;i++){
+      const node = document.createElement("div");
+      const locked = i>done;
+      node.className = "node" + (locked?" locked":" done") + (master&&i===n?" master":"");
+      node.innerHTML = '<div class="bubble">'+(locked?"🔒":"⭐")+'</div>'+
+        '<div class="stars">'+(locked?"":"★".repeat(Math.min(3,(i%3)+1))+"☆".repeat(Math.max(0,2-(i%3))))+'</div>'+
+        '<div class="label">第'+i+'关</div>';
+      node.onclick = ()=>locked ? toast("🔒 该关卡还未解锁，先通关前面的吧！") : toast("（样版演示）进入第"+i+"关…");
+      box.appendChild(node);
+    }
+  };
+  mk("stage1", 10, 4);
+  mk("stage2", 14, 0);
+  mk("stage3", 10, 0);
+  mk("stage4", 10, 0);
+})();
+
+/* ================= 打字引擎 ================= */
+function renderWord(){
+  const word = DEMO_WORDS[state.idx];
+  if(!word){ finishSession(); return; }
+  state.typed = ""; state.errCount = 0;
+  document.getElementById("hintZh").textContent = word.zh;
+  document.getElementById("hintPh").textContent = word.ph + "  （"+word.w.length+" 个字母）";
+  const letters = document.getElementById("letters");
+  letters.innerHTML = "";
+  [...word.w].forEach((ch,i)=>{
+    const s = document.createElement("span");
+    s.className = "ch"; s.textContent = ch; s.id = "ch"+i;
+    letters.appendChild(s);
+  });
+  updateLetterStyles(word.w);
+  const dots = document.getElementById("dots");
+  dots.innerHTML = "";
+  DEMO_WORDS.forEach((_,i)=>{
+    const d = document.createElement("div");
+    d.className = "dot" + (state.results[i]===true?" on":state.results[i]===false?" err":"");
+    dots.appendChild(d);
+  });
+  if(!state.startedAt){ state.startedAt = Date.now(); tick(); }
+  document.getElementById("statCount").textContent = state.totalCount;
+  updateAcc();
+}
+
+function updateLetterStyles(word){
+  [...word].forEach((ch,i)=>{
+    const el = document.getElementById("ch"+i);
+    if(!el) return;
+    if(i < state.typed.length){
+      el.classList.add(state.typed[i]===ch ? "typed-ok" : "typed-bad");
+      el.classList.remove("caret");
+    }else{
+      el.classList.remove("typed-ok","typed-bad");
+      el.classList.toggle("caret", i===state.typed.length);
+    }
+  });
+}
+
+function handleKey(e){
+  if(document.getElementById("view-type").style.display==="none") return;
+  const word = DEMO_WORDS[state.idx];
+  if(!word) return;
+  if(e.key==="Escape"){ state.results[state.idx]=null; state.idx++; renderWord(); return; }
+  if(e.key==="Enter"){
+    if(state.typed.length===word.w.length){
+      if(state.typed===word.w){ onWordCorrect(word); }
+      else{ onWordWrong(word, true); }
+    }
+    return;
+  }
+  if(e.key.length===1 && /[a-zA-Z]/.test(e.key)){
+    if(state.typed.length < word.w.length){
+      state.typed += e.key.toLowerCase();
+      updateLetterStyles(word.w);
+      beep(620,.04,"sine",.05);
+    }
+  }
+}
+
+function onWordCorrect(word){
+  state.results[state.idx] = true;
+  state.totalCount++; state.combo++;
+  state.maxCombo = Math.max(state.maxCombo, state.combo);
+  sCorrect();
+  const xp = 10 * (state.combo>=10?1.5:state.combo>=3?1.2:1);
+  addXp(Math.round(xp));
+  burstStars();
+  updateComboBadge(true);
+  if(state.combo>0 && [5,10,20,50].includes(state.combo)){
+    confettiBurst(); sLevelUp();
+    toast("🎊 "+state.combo+" 连击！里程碑达成");
+  }
+  state.idx++; renderWord();
+}
+
+function onWordWrong(word, showAnswer){
+  state.results[state.idx] = false;
+  state.totalErr++; state.combo = 0;
+  sWrong();
+  const stage = document.getElementById("wordStage");
+  stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+  updateComboBadge(false);
+  state.errCount++;
+  if(state.errCount>=2 || showAnswer){
+    toast("💡 答案是："+word.w+"  ("+word.zh+")，已加入复习队列");
+    state.idx++; renderWord();
+  }else{
+    state.typed = ""; updateLetterStyles(word.w);
+    toast("❌ 不对哦，再试一次！");
+  }
+  updateAcc();
+}
+
+function updateAcc(){
+  const all = state.totalCount + state.totalErr;
+  const acc = all===0 ? 100 : Math.round(state.totalCount/all*100);
+  document.getElementById("statAcc").textContent = acc + "%";
+}
+
+function tick(){
+  if(!state.startedAt) return;
+  const sec = (Date.now()-state.startedAt)/1000;
+  const m = String(Math.floor(sec/60)).padStart(2,"0");
+  const s = String(Math.floor(sec%60)).padStart(2,"0");
+  document.getElementById("statTime").textContent = m+":"+s;
+  const wpm = sec>0 ? Math.round(state.totalCount/ (sec/60)) : 0;
+  document.getElementById("statWpm").textContent = wpm;
+  if(state.idx < DEMO_WORDS.length) setTimeout(tick, 500);
+}
+
+function finishSession(){
+  toast("🏁 样版演示结束！最高连击 x"+state.maxCombo+"，正确率 "+document.getElementById("statAcc").textContent+"。正式版将接入完整词库。");
+  confettiBurst(); sLevelUp();
+}
+
+function updateComboBadge(pop){
+  const b = document.getElementById("comboBadge");
+  b.textContent = state.combo>=3 ? "🔥 连击 x"+state.combo : "连击 x"+state.combo;
+  b.classList.toggle("hot", state.combo>=3);
+  if(pop){ b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); }
+}
+
+/* ================= 经验/等级 ================= */
+function addXp(n){
+  state.xp += n;
+  document.getElementById("pillXp").textContent = state.xp;
+  const fill = document.getElementById("xpFill");
+  const pct = Math.min(100, state.xp/state.xpToNext*100);
+  fill.style.width = pct + "%";
+  document.getElementById("xpText").textContent = state.xp + "/" + state.xpToNext;
+  if(state.xp>=state.xpToNext){
+    state.level++; state.xp -= state.xpToNext;
+    document.getElementById("pillLv").textContent = state.level;
+    document.querySelector(".level-badge").textContent = "Lv."+state.level;
+    sLevelUp(); confettiBurst();
+    toast("🆙 升级！Lv."+state.level);
+  }
+}
+
+/* ================= 语法题 ================= */
+function answerGram(btn, ok){
+  if(ok){
+    btn.style.background = "var(--green)"; btn.style.color = "#fff";
+    btn.style.borderColor = "var(--green-shadow)";
+    document.getElementById("gramResult").innerHTML = "✅ 答对了！+15 XP";
+    sCorrect(); addXp(15); burstStars();
+  }else{
+    btn.style.background = "#FFE3E3"; btn.style.borderColor = "#FFB3B3";
+    document.getElementById("gramResult").innerHTML = "❌ 再想想：主语 He 是第三人称单数，动词要加 -s。";
+    sWrong();
+  }
+}
+
+/* ================= 特效 ================= */
+function burstStars(){
+  const stage = document.getElementById("wordStage");
+  const chars = ["⭐","✨","🌟","💫"];
+  for(let i=0;i<8;i++){
+    const p = document.createElement("div");
+    p.className = "particle"; p.textContent = chars[Math.floor(Math.random()*chars.length)];
+    p.style.left = (20 + Math.random()*60) + "%";
+    p.style.top = (30 + Math.random()*30) + "%";
+    p.style.setProperty("--dx", (Math.random()*160-80)+"px");
+    p.style.setProperty("--dy", (-40-Math.random()*90)+"px");
+    p.style.setProperty("--rot", (Math.random()*360-180)+"deg");
+    stage.appendChild(p);
+    setTimeout(()=>p.remove(), 950);
+  }
+}
+function confettiBurst(){
+  const colors = ["#58CC02","#FFC800","#1CB0F6","#CE82FF","#FF4B4B"];
+  for(let i=0;i<60;i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = colors[i%colors.length];
+    c.style.animationDuration = (1.2+Math.random()*1.4)+"s";
+    c.style.animationDelay = Math.random()*0.3+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 3000);
+  }
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._tm); t._tm = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+
+document.addEventListener("keydown", handleKey);
+switchView("home");
+</script>
+</body>
+</html>
