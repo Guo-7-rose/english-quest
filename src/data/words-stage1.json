@@ -8,6 +8,13 @@
         { "id": "cat", "word": "cat", "phonetic": "/kæt/", "meaning": ["n. 猫"], "exchange": { "s": ["cats"] } },
         { "id": "run", "word": "run", "phonetic": "/rʌn/", "meaning": ["v. 跑；运转", "n. 跑步"], "exchange": { "d": ["ran"], "i": ["running"], "3": ["runs"] } }
       ]
+    },
+    {
+      "stage": 1, "no": 2, "title": "第2章 · 巩固提升",
+      "words": [
+        { "id": "book", "word": "book", "phonetic": "/bʊk/", "meaning": ["n. 书"], "exchange": { "s": ["books"] } },
+        { "id": "dog", "word": "dog", "phonetic": "/dɒɡ/", "meaning": ["n. 狗"], "exchange": { "s": ["dogs"] } }
+      ]
     }
   ]
 }
