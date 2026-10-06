@@ -1,0 +1,13 @@
+{
+  "stage": 1,
+  "chapters": [
+    {
+      "stage": 1, "no": 1, "title": "第1章 · 入门热身",
+      "words": [
+        { "id": "apple", "word": "apple", "phonetic": "/ˈæpl/", "meaning": ["n. 苹果"], "exchange": { "s": ["apples"] } },
+        { "id": "cat", "word": "cat", "phonetic": "/kæt/", "meaning": ["n. 猫"], "exchange": { "s": ["cats"] } },
+        { "id": "run", "word": "run", "phonetic": "/rʌn/", "meaning": ["v. 跑；运转", "n. 跑步"], "exchange": { "d": ["ran"], "i": ["running"], "3": ["runs"] } }
+      ]
+    }
+  ]
+}
