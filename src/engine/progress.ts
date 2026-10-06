@@ -53,7 +53,7 @@ export function completeChapter(state: AppState, chapterId: string, acc: number,
   const [stage] = chapterId.split("-").map(Number) as [number, number];
   const p = state.stageProgress[stage as 1 | 2 | 3 | 4];
   const cur = p[chapterId] ?? { state: "open", stars: 0, bestAcc: 0, bestWpm: 0 };
-  const stars = Math.max(cur.stars, starsForAccuracy(acc));
+  const stars = Math.max(cur.stars, starsForAccuracy(acc)) as 0 | 1 | 2 | 3;
   p[chapterId] = { state: "done", stars, bestAcc: Math.max(cur.bestAcc, acc), bestWpm: Math.max(cur.bestWpm, wpm) };
   unlockNext(state, chapterId);
 }
