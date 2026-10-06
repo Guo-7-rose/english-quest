@@ -1,0 +1,30 @@
+:root {
+  --green: #58CC02;
+  --yellow: #FFC800;
+  --blue: #1CB0F6;
+  --purple: #CE82FF;
+  --red: #FF4B4B;
+  --ink: #3C3C3C;
+  --gray: #777;
+  --bg: #FFF7E8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Nunito", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hello {
+  padding: 40px;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--green);
+}
