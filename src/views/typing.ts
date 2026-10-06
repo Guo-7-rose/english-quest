@@ -1,6 +1,8 @@
 import type { AppState, Word } from "../types";
 import { getChapter } from "../data/words";
 import { createSession, type TypingSession } from "../engine/typing";
+import { buildDailySession } from "../engine/daily";
+import { scheduleReview } from "../engine/review";
 import { addXp, xpForWord, completeChapter } from "../engine/progress";
 import { recordDailyWord } from "../engine/streak";
 import { checkAchievements } from "../data/achievements";
@@ -11,6 +13,7 @@ import { ACHIEVEMENTS } from "../data/achievements";
 let session: TypingSession | null = null;
 let mode: "follow" | "dictation" | "listening" = "dictation";
 let chapterId: string | null = null;
+let wordTags: ("new" | "review")[] = [];
 
 export let currentState: AppState;
 export let saveCurrent: () => void;
@@ -32,7 +35,11 @@ export function renderTypingView(root: HTMLElement, state: AppState, chId: strin
     root.innerHTML = `<div class="card"><h2>章节不存在</h2><div class="muted">请先在地图选择章节</div></div>`;
     return;
   }
-  session = createSession(ch.words);
+  {
+    const daily = buildDailySession(state, ch.id);
+    wordTags = daily.tags;
+    session = createSession(daily.words);
+  }
   session.stats.combo = 0;
 
   const stage = document.createElement("div");
@@ -138,10 +145,13 @@ function handleKey(e: KeyboardEvent): void {
 function onEnter(): void {
   if (!session || session.done) return;
   const r = session.submit();
+  const answeredIdx = session.index - 1;
   const stage = document.getElementById("wordStage")!;
   if (r.ok) {
     sCorrect();
     burstStars(stage);
+    // 复习词答对 → 按 FSRS 良好评分调度
+    if (wordTags[answeredIdx] === "review") scheduleReview(currentState, r.word.id, 3);
     const xp = xpForWord(session.stats.combo);
     const leveled = addXp(currentState, xp);
     currentState.profile.maxCombo = Math.max(currentState.profile.maxCombo, session.stats.maxCombo);
@@ -175,11 +185,7 @@ function onEnter(): void {
 }
 
 function queueForReview(word: Word): void {
-  const st = currentState.wordStats[word.id] ?? { correct: 0, wrong: 0, lastSeen: 0, fsrs: null, inReview: false };
-  st.inReview = true;
-  st.lastSeen = Date.now();
-  st.wrong++;
-  currentState.wordStats[word.id] = st;
+  scheduleReview(currentState, word.id, 1);   // Again 评分，进入 FSRS 学习队列
   currentState.mistakes.push({ word: word.id, wrongAnswer: "", ts: Date.now() });
   saveCurrent();
 }
@@ -190,15 +196,21 @@ function updateLiveStats(): void {
   document.getElementById("statAcc")!.textContent = session.accuracy() + "%";
 }
 
+let tickerTimer: number | undefined;
 function startTicker(): void {
+  window.clearTimeout(tickerTimer);
   const tick = () => {
     if (!session || session.done) return;
+    const view = document.getElementById("view-typing");
+    const timeEl = document.getElementById("statTime");
+    const wpmEl = document.getElementById("statWpm");
+    if (!view || view.style.display === "none" || !timeEl || !wpmEl) return;  // 视图已销毁/隐藏，停止
     const sec = session.elapsed();
     const m = String(Math.floor(sec / 60)).padStart(2, "0");
     const s = String(Math.floor(sec % 60)).padStart(2, "0");
-    document.getElementById("statTime")!.textContent = m + ":" + s;
-    document.getElementById("statWpm")!.textContent = String(session.wpm());
-    window.setTimeout(tick, 500);
+    timeEl.textContent = m + ":" + s;
+    wpmEl.textContent = String(session.wpm());
+    tickerTimer = window.setTimeout(tick, 500);
   };
   tick();
 }
