@@ -1,33 +1,73 @@
-# 英语闯关岛 English Quest（筹备中）
+# 英语闯关岛 English Quest 🏝️
 
-游戏化英语学习网站：打字 + 背单词 + 语法训练 + 每日打卡，风格参考打字鸭 / Qwerty Learner / Monkeytype / Duolingo。
+游戏化英语学习网站：**打字 + 背单词 + 语法训练 + 每日打卡**，风格参考打字鸭 / Qwerty Learner / Monkeytype / Duolingo。
 
-> 当前状态：**设计阶段完成，等待评审批准后开工**
-> 审批人：你（打开下面两样东西，看一眼，说「开工」即可）
+## 🚀 使用（零安装）
 
-## 评审入口
+**直接双击 `dist/index.html`**（或拖进浏览器）即可开始使用。
 
-| 产物 | 文件 | 怎么用 |
-|---|---|---|
-| 🎮 **可视化样版** | [prototype.html](prototype.html) | 双击打开即可玩（或 http://127.0.0.1:8899/prototype.html ） |
-| 📐 **设计文档** | [docs/superpowers/specs/2026-10-06-english-quest-design.md](docs/superpowers/specs/2026-10-06-english-quest-design.md) | 重点看第 6 节游戏化机制、第 7 节四阶段路线、第 10 节里程碑 |
-| 🔍 **调研报告** | [english-typing-gamification-research.md](english-typing-gamification-research.md) | GitHub 40+ 仓库核实报告 |
+- 无需服务器、无需联网、无任何外部请求，纯离线可用
+- 学习进度自动保存在浏览器 localStorage（清理浏览器数据会重置进度）
+- 若自己重新构建：`npm.cmd install && npm.cmd run build`
 
-## 一句话方案
+## 🎮 玩法
 
-- **核心玩法**：看中文释义/音标 → 盲打英文单词（三阶递进：跟打 → 默写 → 听写）
-- **成长路线**：基础（小初 1200 词）→ 进阶（高中 3500）→ 高手（四级 2000）→ 大师（雅思托福 3000），词汇 + 语法双轨闯关
-- **正反馈**：连击火焰、XP/等级、每日打卡🔥、星级、成就徽章、粒子彩带、合成音效
-- **技术**：Vite + TypeScript，产物为单文件 index.html，双击即开，数据存本地，纯离线
+| 模块 | 说明 |
+|---|---|
+| ⌨️ 单词训练 | 看释义盲打英文单词，**三种模式**：默写（默认）/ 听写（发音）/ 跟打；打错需重打，连错 3 次显示答案并进复习队列 |
+| 🗺️ 闯关地图 | 四阶段「基础→进阶→高手→大师」约 2 万词，按词频排序闯关；正确率 60/80/95% 评 1-3 星，全部通关解锁🎓阶段测验（80 分进入下一阶段） |
+| 📖 语法训练 | 阶段一 10 单元（be 动词/复数/时态/疑问句/there be…）：知识卡片 + 选择题，答对 +5 XP |
+| ✅ 每日打卡 | 背满 30 词 或 学 2 个语法单元自动打卡；🔥连续天数、热力图、冻结卡补签 |
+| 📊 数据中心 | WPM/正确率统计、成就墙、错题本 |
+| ⚙️ 设置 | 音效/发音/释义开关、每日目标三档、主题解锁（通关解锁新配色）、数据重置 |
 
-## 已完成的准备
+**正反馈系统**：连击火焰（x3 变色、x5/10/20/50 彩带里程碑）、XP/等级（连击加成 ×1.2/×1.5）、升级全屏庆祝、成就徽章、WebAudio 合成音效（零音频文件）。
 
-- ✅ 浏览器实地调研：打字鸭、Qwerty Learner、Monkeytype、Duolingo
-- ✅ GitHub 40+ 仓库调研（许可证全部核实，只用 MIT/Apache/BSD）
-- ✅ ECDICT 词库下载并实测（77 万词条；zk 1603 / gk 3679 / cet4 3849 / ielts 5040 / toefl 6974）
-- ✅ 样版原型在真实浏览器中验证通过（打卡、打字引擎、连击、XP 全链路）
-- ✅ 设计文档定稿 + 自审 + git 提交
+## 📁 项目结构
 
-## 下一步（等你批准）
+```
+index.html                  # SPA 壳
+src/
+├── main.ts                 # 启动/路由/顶栏
+├── types.ts                # 共享类型
+├── engine/                 # 纯逻辑（typing/progress/streak/review/grammar/quiz/daily）
+├── data/                   # 词库 JSON（ECDICT 生成）+ 语法题库 + 成就定义
+├── views/                  # home/map/typing/grammar/stats/settings/quiz
+├── fx/                     # WebAudio 音效 + 粒子/彩带
+├── store/storage.ts        # localStorage + schema 迁移
+└── styles/                 # 卡通设计系统
+scripts/build-words.mjs     # ECDICT → 四阶段词库生成器
+tests/                      # 49 个单元 + 集成测试（Vitest + jsdom）
+```
 
-`批准 → 实施计划（writing-plans）→ M1~M6 开发 → 交付 dist/index.html`
+## 🔁 更新词库
+
+```bash
+# 1. 下载 ECDICT（MIT 许可）到 data-prep/ecdict.csv
+#    https://github.com/skywind3000/ECDICT
+# 2. 重新生成词库
+node scripts/build-words.mjs
+# 3. 构建
+npm.cmd run build
+```
+
+## 🧪 开发与测试
+
+```bash
+npm.cmd install        # 安装依赖（Node 24 / npm 11）
+npm.cmd test           # 49 个测试（单元 + jsdom 端到端集成）
+npm.cmd run dev        # 开发服务器
+npm.cmd run build      # 产出单文件 dist/index.html
+```
+
+## 📄 许可
+
+- **词库数据**：源自 [ECDICT](https://github.com/skywind3000/ECDICT)（MIT）
+- **复习算法**：[ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs)（MIT）
+- **代码**：本项目自有；GPL/AGPL 项目仅作设计参考，未复制其代码与数据
+
+## 🗺️ 开发历程文档
+
+- 设计文档：[docs/superpowers/specs/2026-10-06-english-quest-design.md](docs/superpowers/specs/2026-10-06-english-quest-design.md)
+- 实施计划：[docs/superpowers/plans/2026-10-06-english-quest.md](docs/superpowers/plans/2026-10-06-english-quest.md)
+- GitHub 调研：[english-typing-gamification-research.md](english-typing-gamification-research.md)
