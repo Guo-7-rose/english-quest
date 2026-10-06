@@ -36,7 +36,9 @@
 - 许可纪律：代码级复用只选 MIT/Apache/BSD（ECDICT、ts-fsrs、write-good、textlint、KyleBing 词表）；GPL/AGPL 项目仅作机制参考。
 - 赛道缺口：GitHub 无成规模 awesome-typing 列表；TypeLit/10fastfingers/TypingClub 均无开源实现。
 
-### 2.3 词库数据流水线（已核实可行）
+### 2.3 词库数据流水线（已实测验证）
+
+> 实测基线（2026-10-06 下载 ecdict.csv 62.9 MB，共 770,611 词条）：`zk` 1603 词 / `gk` 3679 词 / `cet4` 3849 词 / `ielts` 5040 词 / `toefl` 6974 词；Oxford 3000 列 3461 词；`exchange`（词形变化）覆盖 12.5% 词条（常用词覆盖率高，无 exchange 的词自动跳过词形题）。
 
 1. 下载 ECDICT 的 `ecdict.csv`（MIT）；
 2. 按内置标签抽取四个阶段词表：
