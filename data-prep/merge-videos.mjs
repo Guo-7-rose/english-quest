@@ -6,7 +6,10 @@ import { dirname, join } from "node:path";
 const root = dirname(fileURLToPath(import.meta.url));
 const read = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^\uFEFF/, ""));
 const target = join(root, "..", "src", "data", "videos.json");
-const batch = read(join(root, "..", "data-prep", "videos-batch2.json"));
+const batch = [
+  ...read(join(root, "..", "data-prep", "videos-batch2.json")),
+  ...read(join(root, "..", "data-prep", "videos-batch3.json")),
+];
 const current = read(target);
 
 const TOPIC_MAP = {
@@ -18,6 +21,11 @@ const TOPIC_MAP = {
   "英语 宾语从句 讲解": "从句",
   "英语 状语从句 讲解": "从句",
   "英语 名词性从句 讲解": "从句",
+  "英语 比较级 最高级 讲解": "比较级",
+  "英语 时态 综合 复习 讲解": "时态",
+  "英语 连词 讲解": "连词",
+  "英语 数词 讲解": "数词",
+  "英语 感叹句 讲解": "感叹句",
 };
 
 const NOTES = {
@@ -27,6 +35,11 @@ const NOTES = {
   "倒装": "倒装是为了强调或符合特定句式（否定词提前、only 开头等），不是随意换语序。",
   "主谓一致": "英语要求谓语与主语在数上一致，难点在「主语很长 / 有插入语 / 集合名词」这些情况。",
   "从句": "先分清从句在句中作什么成分（主语/宾语/表语/定语/状语），再选连接词。",
+  "比较级": "重点是「同级比较 as…as」「比较级 + than」「最高级 + 范围」，以及不规则变化（good→better→best）。",
+  "时态": "时态本质是「时间 + 状态」的组合，抓住时间轴就能自己推导，而不是背 16 张表。",
+  "连词": "并列连词（and/but/or/so）连接同级成分；从属连词（because/although/when）引导从句。",
+  "数词": "基数词表数量、序数词表顺序；注意日期、年份、分数的读法。",
+  "感叹句": "What + 名词 / How + 形容词副词 两种句式，别混用。",
 };
 
 const merged = [...current.videos];
