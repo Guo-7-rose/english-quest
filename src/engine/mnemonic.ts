@@ -2,6 +2,7 @@ import { familyOfWord, hasRootFamily } from "../data/roots";
 import type { RootFamily } from "../types";
 import commonStems from "../data/common-stems.json";
 import extras from "../data/mnemonics-extra.json";
+import wordEn from "../data/word-en.json";
 
 export type MnemonicLayer = "etymology" | "construction" | "mnemonic";
 
@@ -33,6 +34,7 @@ const PRODUCTIVE_SUFFIXES = [
 
 const STEMS = new Set(commonStems as string[]);
 const EXTRAS = extras as Record<string, { formula?: string; note: string }>;
+const WORD_EN = wordEn as Record<string, { def: string; syl: string }>;
 
 const glossOf = (f: RootFamily): string => f.meaningZh || f.meaning;
 
@@ -87,17 +89,23 @@ function constructionOf(word: string): Mnemonic | null {
   return null;
 }
 
-/** 助记层：预置助记优先，否则给出不编造词源的通用提示 */
+/** 助记层：预置助记（联想/搭配）+ 音节分块 + 英文释义，不编造词源 */
 function mnemonicLayer(word: string): Mnemonic {
   const extra = EXTRAS[word];
-  if (extra) {
-    return { word, layer: "mnemonic", formula: extra.formula ?? "", note: extra.note, parts: [] };
-  }
+  const en = WORD_EN[word];
+  const chunks = en?.syl ? en.syl.split("-").filter(Boolean) : [];
+  const sylFormula = chunks.length >= 2 ? chunks.join(" · ") : "";
+  const notes: string[] = [];
+  if (extra?.note) notes.push("💡 " + extra.note);
+  if (en?.def) notes.push(`英文释义：${en.def}`);
+  notes.push(chunks.length >= 2
+    ? `记忆法：按音节分块朗读（${chunks.length} 块），再用它造一个自己的句子`
+    : "记忆法：结合例句与搭配记忆（本词无可靠词源拆解）");
   return {
     word,
     layer: "mnemonic",
-    formula: "",
-    note: "基础词：无可靠词源拆解，建议结合例句与搭配记忆",
+    formula: extra?.formula || sylFormula,
+    note: notes.join("　｜　"),
     parts: [],
   };
 }
@@ -112,9 +120,9 @@ export function buildMnemonic(word: string): Mnemonic {
   // 规则 2：能产前后缀 + 完整常用词干 → 构词层（unhappy = un- + happy）
   const con = constructionOf(w);
   if (con) return con;
-  // 规则 3：仅有前后缀家族的词，也用词源数据展示（如 helpful）
+  // 规则 3：仅有前缀/词根家族（不含「纯后缀」匹配，如 hospital 的 -al）时也用词源数据
   const fams = familyOfWord(w);
-  if (fams.length > 0) {
+  if (fams.some(f => f.type === "root" || f.type === "prefix")) {
     const ety = etymologyOf(w);
     if (ety) return ety;
   }
