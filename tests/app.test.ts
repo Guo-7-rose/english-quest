@@ -148,16 +148,30 @@ describe("app shell 集成（v2 八板块）", () => {
   it("数据中心：概览/热力图/成就墙/错题本", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="stats"]') as HTMLElement).click();
+    const text = document.querySelector("#view-stats")!.textContent ?? "";
     expect(document.querySelectorAll("#view-stats .badge").length).toBeGreaterThan(5);
-    expect(document.querySelector("#view-stats")!.textContent).toContain("错题本");
+    expect(text).toContain("错题本");
+    expect(text).toContain("词根家族");
+    expect(text).toContain("词库总量");
     expect(document.querySelector("#view-stats .heatmap .day")).not.toBeNull();
   });
 
-  it("设置：开关/每日目标/主题渲染", async () => {
+  it("设置：主题全部解锁（无禁用按钮）", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="settings"]') as HTMLElement).click();
     expect(document.querySelector("#view-settings")!.textContent).toContain("每日目标");
-    expect(document.querySelector("#view-settings")!.textContent).toContain("重置全部数据");
-    expect(document.querySelectorAll("#view-settings .btn").length).toBeGreaterThan(6);
+    expect(document.querySelector("#view-settings")!.textContent).toContain("全部主题直接可用");
+    const themes = document.querySelectorAll("#themes .btn");
+    expect(themes.length).toBe(3);
+    expect([...themes].every(b => !(b as HTMLButtonElement).disabled)).toBe(true);
+  });
+
+  it("首页有今日推荐且可跳转", async () => {
+    await import("../src/main");
+    expect(document.querySelector("#view-home")!.textContent).toContain("今日推荐");
+    const recBtn = document.querySelector('#view-home [data-go][data-arg]') as HTMLElement;
+    expect(recBtn).not.toBeNull();
+    recBtn.click();
+    expect(document.querySelector("#views section")).not.toBeNull();
   });
 });

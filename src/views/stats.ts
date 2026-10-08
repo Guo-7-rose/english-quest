@@ -1,19 +1,27 @@
 import type { AppState } from "../types";
 import { ACHIEVEMENTS } from "../data/achievements";
 import { heatmapDays } from "../engine/streak";
+import { learnedCount } from "../engine/reviewQueue";
+import { allFamilies } from "../data/roots";
+import { bankWords } from "../data/wordbank";
+import { getGrammarUnits } from "../data/grammar";
 import { toast } from "../fx/fx";
 
 export function renderStats(root: HTMLElement, state: AppState): void {
   root.innerHTML = "";
-  const totalWords = Object.values(state.wordStats).reduce((a, w) => a + w.correct, 0);
+  const learned = learnedCount(state);
+  const totalBank = new Set([...bankWords("daily"), ...bankWords("zk"), ...bankWords("gk"), ...bankWords("cet4")]).size;
+  const grammarDone = Object.values(state.grammar).filter(g => g.done).length;
 
   const card = document.createElement("div");
   card.className = "card";
   card.innerHTML = `<h2>📊 数据中心</h2>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <div class="pill">📚 累计打对 <span class="val">${totalWords}</span> 词</div>
-      <div class="pill">⏱ 累计 <span class="val">${state.profile.totalMinutes}</span> 分钟</div>
-      <div class="pill fire">🔥 最长连击 <span class="val">${state.profile.maxCombo}</span></div>
+      <div class="pill">✅ 已学 <span class="val">${learned}</span> 词</div>
+      <div class="pill">📚 词库总量 <span class="val">${totalBank}</span> 词</div>
+      <div class="pill">🌱 词根家族 <span class="val">${allFamilies().length}</span> 个</div>
+      <div class="pill">📖 语法单元 <span class="val">${grammarDone}/${getGrammarUnits().length}</span></div>
+      <div class="pill fire">🔥 连续打卡 <span class="val">${state.profile.streak}</span> 天</div>
       <div class="pill">🏅 成就 <span class="val">${Object.keys(state.achievements).length}/${Object.keys(ACHIEVEMENTS).length}</span></div>
     </div>`;
   root.appendChild(card);

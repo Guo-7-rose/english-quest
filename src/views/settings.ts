@@ -59,15 +59,12 @@ export function renderSettings(root: HTMLElement, state: AppState): void {
     goals.appendChild(b);
   });
 
-  card.insertAdjacentHTML("beforeend", `<h2 style="margin-top:16px">🎨 主题</h2><div class="muted">通关更高阶段解锁新主题</div><div id="themes" style="display:flex;gap:10px;margin-top:10px"></div>`);
+  card.insertAdjacentHTML("beforeend", `<h2 style="margin-top:16px">🎨 主题</h2><div class="muted">全部主题直接可用（内容全解锁）</div><div id="themes" style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap"></div>`);
   const themes = card.querySelector("#themes")!;
-  const maxStageDone = (([1, 2, 3, 4] as const).filter(st => Object.values(state.stageProgress[st]).some(p => p.state === "done")).length) + 1;
   THEMES.forEach(t => {
-    const unlocked = t.needStage <= Math.max(1, maxStageDone);
     const b = document.createElement("button");
     b.className = "btn" + (state.settings.theme === t.id ? " on" : "");
-    b.textContent = unlocked ? t.name : "🔒 " + t.name;
-    b.disabled = !unlocked;
+    b.textContent = t.name;
     b.addEventListener("click", () => {
       state.settings.theme = t.id;
       save(state);
