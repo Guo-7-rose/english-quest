@@ -7,7 +7,7 @@ import { renderWordbank, bindWordbank } from "./views/wordbank";
 import { renderRoots, bindRoots } from "./views/roots";
 import { renderGrammar, bindGrammar } from "./views/grammar";
 import { renderVideos } from "./views/videos";
-import { renderReview } from "./views/review";
+import { renderReview, bindReview } from "./views/review";
 import { renderStats } from "./views/stats";
 import { renderSettings, applyTheme } from "./views/settings";
 import { initAudio } from "./fx/audio";
@@ -80,6 +80,7 @@ function persist(): void { save(state); }
 bindGrammar(state, persist);
 bindRoots(state, persist);
 bindWordbank(state, persist);
+bindReview(state, persist);
 applyTheme(state.settings.theme);
 renderNav();
 refreshTopbar();

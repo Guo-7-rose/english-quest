@@ -134,6 +134,17 @@ describe("app shell 集成（v2 八板块）", () => {
     expect(document.querySelectorAll('#view-videos [data-del="1"]').length).toBe(1);
   });
 
+  it("复习板块：随机自测可出题并作答计分", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="review"]') as HTMLElement).click();
+    expect(document.querySelector("#view-review")!.textContent).toContain("随机自测");
+    (document.querySelector("#startDaily") as HTMLElement).click();
+    const opts = document.querySelectorAll("#reviewStage .quiz-option");
+    expect(opts.length).toBe(4);
+    (opts[0] as HTMLElement).click();
+    expect(document.querySelector("#reviewStage")!.textContent).toContain("下一题");
+  });
+
   it("数据中心：概览/热力图/成就墙/错题本", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="stats"]') as HTMLElement).click();
