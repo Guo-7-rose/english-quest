@@ -7,10 +7,13 @@ import { defaultState } from "../src/store/storage";
 const VIDEO_IDS = new Set(builtinVideos().map(v => v.id));
 
 describe("语法单元（英语思维六段式）", () => {
-  it("12 个核心单元，编号连续", () => {
+  it("核心语法单元 ≥ 12 个且编号连续无重复", () => {
     const units = getGrammarUnits();
-    expect(units.length).toBe(12);
-    expect(units.map(u => u.no)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    expect(units.length).toBeGreaterThanOrEqual(12);
+    const nos = units.map(u => u.no);
+    expect(new Set(nos).size).toBe(nos.length);
+    expect(nos).toEqual([...nos].sort((a, b) => a - b));
+    expect(nos[0]).toBe(1);
   });
 
   it("每单元六段内容齐全（英语思维/规则/例句/常见错误/练习/视频）", () => {

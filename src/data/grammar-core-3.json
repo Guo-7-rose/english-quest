@@ -1,0 +1,149 @@
+{
+  "units": [
+    {
+      "id": "g-13", "no": 13, "title": "被动语态：把重点移到「被怎样」",
+      "thinking": "英语用被动不是为了翻译中文的「被」字，而是为了换焦点：当「谁做的」不重要、不知道、或不想说时，就把受事提到主语位置。中文说「这栋楼建于 1990 年」，英语说 The building was built in 1990 —— 重点是楼，不是建造者。抓住「换焦点」这个动机，被动就不再是死记的公式。",
+      "rules": [
+        { "formula": "be + 过去分词（+ by 施事）", "desc": "时态体现在 be 上：is done / was done / has been done / will be done" },
+        { "formula": "只有及物动词有被动", "desc": "happen / appear / belong 等不及物动词没有被动式" },
+        { "formula": "常用场景：过程/规则/客观陈述", "desc": "English is spoken here. / The work must be finished today." }
+      ],
+      "examples": [
+        { "en": "The bridge was built in 1990.", "zh": "这座桥建于 1990 年。（重点在桥）", "ok": true },
+        { "en": "The bridge built in 1990.", "zh": "✗ 缺 be 动词", "ok": false },
+        { "en": "English is spoken in many countries.", "zh": "很多国家说英语。（规则性陈述用被动）", "ok": true },
+        { "en": "It was happened yesterday.", "zh": "✗ happen 是不及物动词，没有被动", "ok": false }
+      ],
+      "mistakes": [
+        "漏 be 动词，只留过去分词",
+        "给不及物动词加被动：was happened / is appeared ✗",
+        "be 与过去分词之间插错时态：The work is finished yesterday ✗（应为 was finished）"
+      ],
+      "questions": [
+        { "q": "The letter ___ yesterday.", "options": ["sent", "was sent", "is sent", "sends"], "answer": 1, "explain": "yesterday 是过去时间，被动用 was + 过去分词。" },
+        { "q": "哪句正确？", "options": ["The accident was happened last night.", "The accident happened last night.", "The accident is happened last night.", "The accident was happen last night."], "answer": 1, "explain": "happen 不及物，用主动形式。" },
+        { "q": "English ___ all over the world.", "options": ["speaks", "is spoken", "speaking", "spoke"], "answer": 1, "explain": "英语被说，用被动 is spoken。" },
+        { "q": "The homework must ___ before Friday.", "options": ["finish", "be finished", "finished", "be finishing"], "answer": 1, "explain": "情态动词后的被动：must be + 过去分词。" },
+        { "q": "「这栋楼是 1990 年建的」", "options": ["This building built in 1990.", "This building was built in 1990.", "This building is build in 1990.", "This building has build in 1990."], "answer": 1, "explain": "过去被动 was built。" },
+        { "q": "被动语态的时态变化体现在哪个词上？", "options": ["过去分词", "be 动词", "主语", "by 短语"], "answer": 1, "explain": "be 变动（is/was/has been/will be），过去分词不变。" }
+      ],
+      "videos": ["C6tNUqQaFIQ", "DxX_oqcWuO4"]
+    },
+    {
+      "id": "g-14", "no": 14, "title": "非谓语动词：一句话里只能有一个谓语",
+      "thinking": "英语有条铁律：一个句子只能有一个谓语动词。第二个动作怎么办？必须「降级」成非谓语形式——不定式（to do）、动名词（doing）、分词（doing/done）。选哪个，取决于它在句里扮演什么角色：目的/打算用不定式，作主语宾语用动名词，修饰名词用分词。理解「降级」这个逻辑，比背规则表有用得多。",
+      "rules": [
+        { "formula": "to do：表目的、打算、将要", "desc": "I want to go. / He came to help." },
+        { "formula": "doing：作主语/宾语，或表主动进行", "desc": "Reading is fun. / I enjoy reading." },
+        { "formula": "done：表被动完成，作定语/状语", "desc": "a broken cup / Given more time, I could do it." }
+      ],
+      "examples": [
+        { "en": "I want to learn English.", "zh": "我想学英语。（打算用不定式）", "ok": true },
+        { "en": "I want learn English.", "zh": "✗ want 后面必须接 to do", "ok": false },
+        { "en": "Swimming is good for health.", "zh": "游泳有益健康。（动名词作主语）", "ok": true },
+        { "en": "Swim is good for health.", "zh": "✗ 动词原形不能作主语", "ok": false }
+      ],
+      "mistakes": [
+        "一个句子里出现两个谓语：I want go ✗ / I am want to go ✗",
+        "enjoy / finish / mind 后面用 to do（应为 doing）",
+        "分词逻辑主语不一致：Walking home, the rain started ✗（走路的不是雨）"
+      ],
+      "questions": [
+        { "q": "I enjoy ___ music.", "options": ["listen", "to listen", "listening", "listened"], "answer": 2, "explain": "enjoy 后面接动名词 doing。" },
+        { "q": "She came here ___ the truth.", "options": ["know", "to know", "knowing", "known"], "answer": 1, "explain": "表目的用不定式 to do。" },
+        { "q": "___ English well is not easy.", "options": ["Learn", "To learning", "Learning", "Learned"], "answer": 2, "explain": "动名词作主语。" },
+        { "q": "哪句正确？", "options": ["I want go home.", "I want to go home.", "I want going home.", "I am want go home."], "answer": 1, "explain": "want + to do。" },
+        { "q": "The window ___ by Tom is broken.", "options": ["break", "breaking", "broken", "broke"], "answer": 2, "explain": "被打破的窗户：过去分词作定语表被动。" },
+        { "q": "非谓语动词的出现原因是？", "options": ["句子必须有两个谓语", "一句话只能有一个谓语，其余动作要降级", "非谓语可以随便用", "为了句子更长"], "answer": 1, "explain": "一个句子只有一个谓语，其他动词降级为非谓语。" }
+      ],
+      "videos": ["LhbZ4TAjgUo", "L6MUMwoRK0A"]
+    },
+    {
+      "id": "g-15", "no": 15, "title": "虚拟语气：与事实相反的假设",
+      "thinking": "虚拟语气的本质只有一句话：用「过去的形态」表达「不是真的」。所以说 If I were you（我现在不是你）、If I had known（当时并不知道）。中文用「要是…就好了 / 如果当时…」来表达，英语则统一用「退一步的时态」——理解了「退一步」，就不必背表格。",
+      "rules": [
+        { "formula": "与现在相反：If + 过去式，主句 would/could + 动词原形", "desc": "If I were you, I would take it." },
+        { "formula": "与过去相反：If + had done，主句 would have done", "desc": "If I had studied, I would have passed." },
+        { "formula": "wish / as if 后同样「退一步」", "desc": "I wish I were taller. / He talks as if he knew everything." }
+      ],
+      "examples": [
+        { "en": "If I were you, I would apologize.", "zh": "如果我是你，我会道歉。（现在不是）", "ok": true },
+        { "en": "If I am you, I will apologize.", "zh": "✗ 与事实相反要用虚拟", "ok": false },
+        { "en": "If I had known, I would have come.", "zh": "要是我早知道，我就来了。（当时不知道）", "ok": true },
+        { "en": "I wish I am taller.", "zh": "✗ wish 后用过去式 were", "ok": false }
+      ],
+      "mistakes": [
+        "与现在相反的假设里用 am/is/are 或 will",
+        "wish 后面忘「退一步」：I wish I can ✗ → I wish I could ✓",
+        "把虚拟语气与真实条件句混淆（真实条件用一般时态：If it rains, I will stay home.）"
+      ],
+      "questions": [
+        { "q": "If I ___ you, I would take the job.", "options": ["am", "was", "were", "be"], "answer": 2, "explain": "虚拟语气中 be 统一用 were。" },
+        { "q": "If I ___ harder, I would have passed.", "options": ["studied", "had studied", "study", "would study"], "answer": 1, "explain": "与过去相反：If + had done。" },
+        { "q": "I wish I ___ speak French.", "options": ["can", "could", "will", "am"], "answer": 1, "explain": "wish 后用过去形式表达不可能/愿望。" },
+        { "q": "哪句是真实条件句？", "options": ["If I were rich, I would travel.", "If it rains, I will stay home.", "If I had time, I would help.", "I wish I knew."], "answer": 1, "explain": "真实可能发生的条件用一般现在时 + will。" },
+        { "q": "He talks as if he ___ everything.", "options": ["knows", "knew", "know", "has known"], "answer": 1, "explain": "as if + 虚拟，用过去式。" },
+        { "q": "虚拟语气的核心逻辑是？", "options": ["用现在时表示礼貌", "用过去的形态表示与事实相反", "加 to 就行", "用 will 表示愿望"], "answer": 1, "explain": "「退一步的时态」= 不是真的。" }
+      ],
+      "videos": ["-Skm12wNLa8", "6ZaAcZDku3I"]
+    },
+    {
+      "id": "g-16", "no": 16, "title": "倒装：为了强调而调换语序",
+      "thinking": "英语语序通常是主语在前，但当否定词、only 短语被提到句首时，必须把助动词提到主语前面——这就是倒装。它不是为了好看，而是英语「形式标记焦点」的习惯：把注意力引到前面那个成分上。中文靠「尤其/正是」这类词强调，英语靠换语序。",
+      "rules": [
+        { "formula": "否定词提前：Never / Hardly / Not only + 助动词 + 主语", "desc": "Never have I seen such a thing." },
+        { "formula": "only + 状语提前：Only then did I realize…", "desc": "Only in this way can we succeed." },
+        { "formula": "虚拟条件句省略 if 时倒装：Were I you… / Had I known…", "desc": "Had I known, I would have helped." }
+      ],
+      "examples": [
+        { "en": "Never have I seen such a beautiful place.", "zh": "我从没见过这么美的地方。", "ok": true },
+        { "en": "Never I have seen such a beautiful place.", "zh": "✗ 否定词提前后要倒装", "ok": false },
+        { "en": "Only then did I understand.", "zh": "只有到那时我才明白。", "ok": true },
+        { "en": "Only then I understood.", "zh": "✗ only 状语提前需倒装", "ok": false }
+      ],
+      "mistakes": [
+        "否定词提前后忘倒装",
+        "倒装时漏掉助动词：Never I saw ✗",
+        "把 only + 主语提前当成倒装（Only he knows. 不倒装，因为 only 修饰主语）"
+      ],
+      "questions": [
+        { "q": "Never ___ such a thing.", "options": ["I have seen", "have I seen", "I saw", "did I saw"], "answer": 1, "explain": "否定词提前：助动词 have 提到主语前。" },
+        { "q": "Only in this way ___ improve your English.", "options": ["you can", "can you", "you could", "do you"], "answer": 1, "explain": "only + 方式状语提前，主句倒装。" },
+        { "q": "___ I known the truth, I would have told you.", "options": ["If", "Had", "Have", "Did"], "answer": 1, "explain": "虚拟条件省略 if 时用 Had 提前。" },
+        { "q": "哪句正确？", "options": ["Hardly I had arrived when it rained.", "Hardly had I arrived when it rained.", "Hardly I arrived when it rained.", "Hardly did I had arrived when it rained."], "answer": 1, "explain": "Hardly 提前需倒装：Hardly had I arrived…" },
+        { "q": "Only he ___ the answer.", "options": ["does know", "knows", "know", "did knows"], "answer": 1, "explain": "only 修饰主语时不倒装，正常语序。" },
+        { "q": "倒装的触发条件通常是？", "options": ["任何句子都可以", "否定词或 only 状语被提到句首", "主语很长", "句子是疑问句以外的所有情况"], "answer": 1, "explain": "否定词/only 状语提前是常见触发条件。" }
+      ],
+      "videos": ["dEIKsJTGby4", "orJDbK2rGyM"]
+    },
+    {
+      "id": "g-17", "no": 17, "title": "主谓一致：谓语要跟着主语走",
+      "thinking": "英语要求谓语动词在人称和数上与主语一致，这是「形式必须标记」的又一次体现。难点不在简单句，而在主语变长时：True or false? 这类插入语、along with 这类伴随短语、以及集合名词（family/team）到底算单数还是复数。判断方法只有一条：找到真正的核心主语。",
+      "rules": [
+        { "formula": "核心主语的单复数决定谓语", "desc": "The list of items is long.（主语是 list，不是 items）" },
+        { "formula": "along with / together with / as well as 不改变主语数", "desc": "Tom, along with his friends, is coming." },
+        { "formula": "集合名词视为整体用单数（The team is winning）；强调成员用复数（The team are arguing）", "desc": "英式英语中后者更常见" }
+      ],
+      "examples": [
+        { "en": "The number of students is increasing.", "zh": "学生人数在增加。（主语是 number）", "ok": true },
+        { "en": "The number of students are increasing.", "zh": "✗ 主语是 the number，用 is", "ok": false },
+        { "en": "Either you or he is right.", "zh": "要么你对，要么他对。（就近原则）", "ok": true },
+        { "en": "Either you or he are right.", "zh": "✗ 就近原则取 he → is", "ok": false }
+      ],
+      "mistakes": [
+        "被 of 短语误导：The list of items are… ✗",
+        "each / every / either / neither 作主语时用复数谓语 ✗",
+        "there be 后有几个名词时忘记就近原则"
+      ],
+      "questions": [
+        { "q": "The list of names ___ on the desk.", "options": ["are", "is", "were", "be"], "answer": 1, "explain": "主语是 the list（单数）。" },
+        { "q": "Tom, along with his parents, ___ coming.", "options": ["are", "is", "were", "be"], "answer": 1, "explain": "along with 不改变主语数，主语是 Tom。" },
+        { "q": "Each of the students ___ a book.", "options": ["have", "has", "are having", "were having"], "answer": 1, "explain": "each 作主语用单数。" },
+        { "q": "There ___ a pen and two books on the desk.", "options": ["are", "is", "were", "be"], "answer": 1, "explain": "就近原则：离 be 最近的是 a pen。" },
+        { "q": "Neither of the answers ___ correct.", "options": ["are", "is", "were", "be"], "answer": 1, "explain": "neither 作主语视为单数。" },
+        { "q": "判断主谓一致的要点是？", "options": ["看离谓语最近的名词", "找到真正的核心主语（去掉修饰成分）", "一律用复数", "看句子长短"], "answer": 1, "explain": "先去掉 of 短语等修饰，找核心主语。" }
+      ],
+      "videos": ["0BhEJtrm6ro", "yYe0OZkWJG4"]
+    }
+  ]
+}

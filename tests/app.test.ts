@@ -33,11 +33,11 @@ describe("app shell 集成（v2 八板块）", () => {
     }
   });
 
-  it("语法板块：12 单元 → 六段式单元页 → 练习作答", async () => {
+  it("语法板块：单元列表 → 六段式单元页 → 练习作答", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="grammar"]') as HTMLElement).click();
     const cards = document.querySelectorAll("#view-grammar .card");
-    expect(cards.length).toBe(13); // 标题卡 + 12 单元
+    expect(cards.length).toBeGreaterThanOrEqual(13); // 标题卡 + ≥12 单元
     // 进入第 1 单元
     (cards[1] as HTMLElement).click();
     const text = document.querySelector("#view-grammar")!.textContent ?? "";
