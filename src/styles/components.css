@@ -88,3 +88,57 @@ h2 { margin: 0 0 12px; font-size: 20px; font-weight: 900; }
 .badge { text-align: center; padding: 10px; border-radius: 14px; border: 2px solid #E5E5E5; }
 .badge .icon { font-size: 28px; }
 .badge.locked { filter: grayscale(1); opacity: .5; }
+
+/* ===== 底部标签栏与更多面板（手机） ===== */
+.tabbar { display: none; }
+.sheet { position: fixed; inset: 0; background: rgba(0, 0, 0, .35); z-index: 200; display: flex; align-items: flex-end; }
+.sheet[hidden] { display: none; }
+.sheet-inner { background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 16px; display: flex; flex-direction: column; gap: 10px; padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+.sheet-title { font-weight: 900; font-size: 16px; text-align: center; margin-bottom: 4px; }
+
+/* 词表行（桌面默认） */
+.wrow { border: 2px solid #F0F0F0; border-radius: 12px; padding: 8px 10px; cursor: pointer; }
+.wrow:hover { border-color: #E0E0E0; }
+
+/* ===== 手机适配（≤768px）===== */
+@media (max-width: 768px) {
+  .main-nav { display: none; }
+  .app { width: 94vw; padding: 12px 0 104px; }
+  .topbar { gap: 8px; }
+  .logo { font-size: 20px; }
+  .logo span { display: none; }
+  .stats-pills { gap: 6px; }
+  .pill { padding: 4px 8px; font-size: 12px; }
+  .pill .val { font-size: 14px; }
+  h2 { font-size: 18px; }
+  .card { padding: 14px; border-radius: 16px; }
+
+  /* 触控规范：最小 44px 高度、≥16px 字号 */
+  .btn { min-height: 44px; font-size: 16px; padding: 10px 14px; }
+  input { font-size: 16px !important; }
+  .muted { font-size: 12px; }
+
+  /* 底部标签栏 */
+  .tabbar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0;
+    background: #fff; border-top: 2px solid #E5E5E5;
+    padding: 4px 4px calc(4px + env(safe-area-inset-bottom));
+    z-index: 150; justify-content: space-around;
+  }
+  .tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+    background: none; border: 0; font-family: inherit; font-size: 11px; font-weight: 800;
+    color: var(--gray); min-height: 48px; padding: 6px 2px; border-radius: 12px; cursor: pointer;
+  }
+  .tab.on { color: var(--green); background: #F1FAEA; }
+  .tab-icon { font-size: 20px; line-height: 1; }
+  .toast { bottom: calc(84px + env(safe-area-inset-bottom)); max-width: 88vw; text-align: center; }
+
+  /* 词表行更紧凑，避免拥挤 */
+  .wrow { padding: 10px 12px; }
+  .wrow b { font-size: 17px; }
+  .heatmap { gap: 3px; }
+  .node { width: 64px; }
+  .node .bubble { width: 48px; height: 48px; font-size: 16px; }
+}
+

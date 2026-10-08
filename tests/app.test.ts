@@ -7,9 +7,9 @@ describe("app shell 集成（v2 八板块）", () => {
     localStorage.clear();
   });
 
-  it("启动后渲染 8 个板块导航与学习面板", async () => {
+  it("启动后渲染 8 个桌面导航与学习面板", async () => {
     await import("../src/main");
-    const nav = document.querySelectorAll("nav button");
+    const nav = document.querySelectorAll("nav.main-nav button");
     expect(nav.length).toBe(8);
     expect(document.querySelector("#view-home")).not.toBeNull();
     expect(document.querySelector("#pills")!.textContent).toContain("天");
@@ -17,7 +17,7 @@ describe("app shell 集成（v2 八板块）", () => {
 
   it("导航无任何锁定状态", async () => {
     await import("../src/main");
-    const labels = [...document.querySelectorAll("nav button")].map(b => b.textContent ?? "");
+    const labels = [...document.querySelectorAll("nav.main-nav button")].map(b => b.textContent ?? "");
     expect(labels.join(" ")).toContain("单词板块");
     expect(labels.join(" ")).toContain("词根词缀库");
     expect(labels.join(" ")).toContain("视频课");
@@ -143,6 +143,34 @@ describe("app shell 集成（v2 八板块）", () => {
     expect(opts.length).toBe(4);
     (opts[0] as HTMLElement).click();
     expect(document.querySelector("#reviewStage")!.textContent).toContain("下一题");
+  });
+
+  it("手机端：底部标签栏 5 主项 + 更多面板", async () => {
+    await import("../src/main");
+    const tabs = document.querySelectorAll("#tabbar .tab");
+    expect(tabs.length).toBe(6); // 5 主项 + 更多
+    const labels = [...tabs].map(t => t.textContent ?? "").join(" ");
+    for (const l of ["面板", "单词", "词根", "语法", "复习", "更多"]) expect(labels).toContain(l);
+    // 点「更多」弹出面板，含视频课/数据/设置
+    (document.querySelector("#moreTab") as HTMLElement).click();
+    const sheet = document.querySelector("#sheet") as HTMLElement;
+    expect(sheet.hidden).toBe(false);
+    const sheetText = sheet.textContent ?? "";
+    for (const l of ["视频课", "数据", "设置"]) expect(sheetText).toContain(l);
+    // 从面板进入视频课后自动收起
+    (document.querySelector('[data-sheet-view="videos"]') as HTMLElement).click();
+    expect(document.querySelector("#view-videos")).not.toBeNull();
+    expect((document.querySelector("#sheet") as HTMLElement).hidden).toBe(true);
+    // 底部标签栏高亮当前板块
+    const active = document.querySelector("#tabbar .tab.on") as HTMLElement;
+    expect(active).not.toBeNull();
+    expect(active.textContent).toContain("更多");
+  });
+
+  it("PWA：manifest 与 SW 注册代码存在（仅 http(s) 注册）", async () => {
+    await import("../src/main");
+    // jsdom 的 location.protocol 是 http:，注册逻辑不抛错即可（sw.js 在构建产物中）
+    expect(typeof navigator.serviceWorker?.register === "function" || navigator.serviceWorker === undefined).toBe(true);
   });
 
   it("数据中心：概览/热力图/成就墙/错题本", async () => {

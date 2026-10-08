@@ -134,7 +134,7 @@ function renderFamily(root: HTMLElement, state: AppState, key: string): void {
   for (const w of ordered) {
     const m = buildMnemonic(w.word);
     const row = document.createElement("div");
-    row.style.cssText = "border:2px solid #F0F0F0;border-radius:12px;padding:8px 10px;cursor:pointer";
+    row.className = "wrow";
     row.innerHTML = `
       <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
         <b style="font-size:16px">${w.word}</b>

@@ -24,6 +24,16 @@ app.innerHTML = `
     </div>
     <nav class="main-nav" id="nav"></nav>
     <main id="views"></main>
+  </div>
+  <nav class="tabbar" id="tabbar"></nav>
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-inner">
+      <div class="sheet-title">更多板块</div>
+      <button class="btn" data-sheet-view="videos">🎬 视频课</button>
+      <button class="btn" data-sheet-view="stats">📊 数据</button>
+      <button class="btn" data-sheet-view="settings">⚙️ 设置</button>
+      <button class="btn btn--ghost" id="sheetClose">关闭</button>
+    </div>
   </div>`;
 
 const NAVS: Array<[string, string]> = [
@@ -36,6 +46,35 @@ const NAVS: Array<[string, string]> = [
   ["stats", "📊 数据"],
   ["settings", "⚙️ 设置"],
 ];
+
+/** 手机底部标签栏：5 个主项 + 更多 */
+const TABS: Array<[string, string, string]> = [
+  ["home", "🏠", "面板"],
+  ["wordbank", "📚", "单词"],
+  ["roots", "🌱", "词根"],
+  ["grammar", "📖", "语法"],
+  ["review", "🔁", "复习"],
+];
+const SHEET_VIEWS = ["videos", "stats", "settings"];
+
+function renderTabbar(): void {
+  const bar = document.getElementById("tabbar")!;
+  const moreActive = SHEET_VIEWS.includes(currentView);
+  bar.innerHTML =
+    TABS.map(([v, icon, label]) =>
+      `<button class="tab${v === currentView ? " on" : ""}" data-view="${v}"><span class="tab-icon">${icon}</span><span class="tab-label">${label}</span></button>`
+    ).join("") +
+    `<button class="tab${moreActive ? " on" : ""}" id="moreTab"><span class="tab-icon">⋯</span><span class="tab-label">更多</span></button>`;
+  bar.querySelectorAll("[data-view]").forEach(b =>
+    b.addEventListener("click", () => navigate(b.getAttribute("data-view")!)));
+  bar.querySelector("#moreTab")!.addEventListener("click", () => toggleSheet(true));
+}
+
+function toggleSheet(open: boolean): void {
+  const sheet = document.getElementById("sheet")!;
+  sheet.hidden = !open;
+  sheet.classList.toggle("open", open);
+}
 
 function renderNav(): void {
   const nav = document.getElementById("nav")!;
@@ -55,7 +94,9 @@ function refreshTopbar(): void {
 function navigate(view: string, arg?: string): void {
   currentView = view;
   renderNav();
+  renderTabbar();
   refreshTopbar();
+  toggleSheet(false);
   const root = document.getElementById("views")!;
   root.innerHTML = `<section id="view-${view}" style="display:block"></section>`;
   const el = document.getElementById(`view-${view}`)!;
@@ -67,6 +108,7 @@ function navigate(view: string, arg?: string): void {
   else if (view === "review") renderReview(el, state);
   else if (view === "stats") renderStats(el, state);
   else if (view === "settings") renderSettings(el, state);
+  window.scrollTo({ top: 0 });
 }
 
 window.addEventListener("eq:navigate", (e) => {
@@ -75,6 +117,12 @@ window.addEventListener("eq:navigate", (e) => {
 });
 
 document.getElementById("logo")!.addEventListener("click", () => navigate("home"));
+document.getElementById("sheetClose")!.addEventListener("click", () => toggleSheet(false));
+document.getElementById("sheet")!.addEventListener("click", (e) => {
+  if (e.target === document.getElementById("sheet")) toggleSheet(false);
+});
+document.querySelectorAll("[data-sheet-view]").forEach(b =>
+  b.addEventListener("click", () => navigate(b.getAttribute("data-sheet-view")!)));
 
 function persist(): void { save(state); }
 bindGrammar(state, persist);
@@ -83,7 +131,15 @@ bindWordbank(state, persist);
 bindReview(state, persist);
 applyTheme(state.settings.theme);
 renderNav();
+renderTabbar();
 refreshTopbar();
 navigate("home");
 
 document.addEventListener("pointerdown", initAudio, { once: true });
+
+// PWA：仅在 http(s) 下注册 Service Worker（file:// 打开时静默跳过，功能不受影响）
+if (location.protocol === "http:" || location.protocol === "https:") {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker?.register("./sw.js").catch(() => { /* 离线/不支持时忽略 */ });
+  });
+}

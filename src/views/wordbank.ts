@@ -175,7 +175,7 @@ function renderRows(container: HTMLElement, state: AppState, words: string[], me
     const stat = bankState.wordStats[word];
     const info = lookup.get(word);
     const row = document.createElement("div");
-    row.style.cssText = "border:2px solid #F0F0F0;border-radius:12px;padding:8px 10px;cursor:pointer";
+    row.className = "wrow";
     row.innerHTML = `<div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
         <b style="font-size:16px">${word}</b>
         <span class="muted">${info?.phonetic ?? ""}</span>
