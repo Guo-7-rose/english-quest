@@ -3,7 +3,7 @@ import "./styles/components.css";
 import { loadAll, save } from "./store/storage";
 import type { AppState } from "./types";
 import { renderHome } from "./views/home";
-import { renderWordbank } from "./views/wordbank";
+import { renderWordbank, bindWordbank } from "./views/wordbank";
 import { renderRoots, bindRoots } from "./views/roots";
 import { renderGrammar, bindGrammar } from "./views/grammar";
 import { renderVideos } from "./views/videos";
@@ -79,6 +79,7 @@ document.getElementById("logo")!.addEventListener("click", () => navigate("home"
 function persist(): void { save(state); }
 bindGrammar(state, persist);
 bindRoots(state, persist);
+bindWordbank(state, persist);
 applyTheme(state.settings.theme);
 renderNav();
 refreshTopbar();

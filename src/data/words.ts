@@ -36,6 +36,22 @@ export function getChapter(id: string): Chapter | undefined {
   return undefined;
 }
 
+// 全词库索引：word -> 词条（词表行渲染与自测出题用）
+const WORD_INFO = new Map<string, Word>();
+for (const st of ALL_STAGES) {
+  for (const ch of st) {
+    for (const w of ch.words) if (!WORD_INFO.has(w.word)) WORD_INFO.set(w.word, w);
+  }
+}
+
+export function wordInfo(word: string): Word | undefined {
+  return WORD_INFO.get(word.toLowerCase());
+}
+
+export function allBankWordIds(): string[] {
+  return [...WORD_INFO.keys()];
+}
+
 export function genWordFormQuestions(word: Word): WordFormQuestion[] {
   const qs: WordFormQuestion[] = [];
   for (const [key, kind, promptFn] of KIND_KEYS) {

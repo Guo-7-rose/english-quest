@@ -39,6 +39,47 @@ describe("app shell 集成（v2 八板块）", () => {
     expect(document.querySelectorAll("#view-grammar .card").length).toBeGreaterThan(2);
   });
 
+  it("单词板块：四个板块按 日常→初中→高中→四级 顺序且无锁", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="wordbank"]') as HTMLElement).click();
+    const text = document.querySelector("#view-wordbank")!.textContent ?? "";
+    const order = ["日常词汇", "初中词汇", "高中词汇", "四级词汇"].map(t => text.indexOf(t));
+    expect(order.every(i => i >= 0)).toBe(true);
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    expect(text).not.toContain("未解锁");
+    expect(document.querySelectorAll("#view-wordbank [disabled]").length).toBe(0);
+  });
+
+  it("单词板块：日常词汇 → 主题词表 → 词详情可标记", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="wordbank"]') as HTMLElement).click();
+    // 进入日常词汇
+    const dailyCard = [...document.querySelectorAll("#view-wordbank .card")].find(c => c.textContent?.includes("日常词汇")) as HTMLElement;
+    dailyCard.click();
+    const themes = document.querySelectorAll("#view-wordbank [data-theme]");
+    expect(themes.length).toBe(18);
+    // 进入第一个主题
+    (themes[0] as HTMLElement).click();
+    const rows = document.querySelectorAll("#wordList #rows > div");
+    expect(rows.length).toBeGreaterThan(20);
+    // 展开词详情并标记记住
+    const row = rows[0] as HTMLElement;
+    row.click();
+    expect(row.textContent).toContain("记住了");
+    (row.querySelector('[data-act="ok"]') as HTMLElement).click();
+    expect(row.textContent).toContain("✅");
+  });
+
+  it("单词板块：四级词表分页可用", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="wordbank"]') as HTMLElement).click();
+    const cet4 = [...document.querySelectorAll("#view-wordbank .card")].find(c => c.textContent?.includes("四级词汇")) as HTMLElement;
+    cet4.click();
+    expect(document.querySelector("#view-wordbank")!.textContent).toContain("第 1 /");
+    const rows = document.querySelectorAll("#wordList #rows > div");
+    expect(rows.length).toBeLessThanOrEqual(50);
+  });
+
   it("词根词缀库：家族网格 → 家族页 → 同族词", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="roots"]') as HTMLElement).click();
