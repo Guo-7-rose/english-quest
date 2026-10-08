@@ -72,7 +72,7 @@ describe("app shell 集成（v2 八板块）", () => {
     const dailyCard = [...document.querySelectorAll("#view-wordbank .card")].find(c => c.textContent?.includes("日常词汇")) as HTMLElement;
     dailyCard.click();
     const themes = document.querySelectorAll("#view-wordbank [data-theme]");
-    expect(themes.length).toBe(18);
+    expect(themes.length).toBeGreaterThanOrEqual(18);
     // 进入第一个主题
     (themes[0] as HTMLElement).click();
     const rows = document.querySelectorAll("#wordList #rows > div");

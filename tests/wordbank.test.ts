@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { allThemes, allExpressions, bankWords, getTheme } from "../src/data/wordbank";
 
 describe("日常词包与表达包", () => {
-  it("18 个生活主题，每主题至少 30 词", () => {
+  it("生活主题 ≥ 18 个，每主题至少 30 词", () => {
     const themes = allThemes();
-    expect(themes.length).toBe(18);
+    expect(themes.length).toBeGreaterThanOrEqual(18);
     for (const t of themes) {
       expect(t.words.length, t.title).toBeGreaterThanOrEqual(30);
       expect(t.icon.length).toBeGreaterThan(0);
@@ -20,9 +20,9 @@ describe("日常词包与表达包", () => {
     }
   });
 
-  it("生活表达包 ≥ 45 条且字段齐全", () => {
+  it("生活表达包 ≥ 60 条且字段齐全", () => {
     const ex = allExpressions();
-    expect(ex.length).toBeGreaterThanOrEqual(45);
+    expect(ex.length).toBeGreaterThanOrEqual(60);
     for (const e of ex) {
       expect(e.zh.length).toBeGreaterThan(0);
       expect(e.en.length).toBeGreaterThan(0);
@@ -30,9 +30,9 @@ describe("日常词包与表达包", () => {
     }
   });
 
-  it("日常词表去重后超过 500 词", () => {
+  it("日常词表去重后超过 800 词", () => {
     const words = bankWords("daily");
-    expect(words.length).toBeGreaterThan(500);
+    expect(words.length).toBeGreaterThan(800);
     expect(new Set(words).size).toBe(words.length);
   });
 

@@ -1,0 +1,30 @@
+{
+  "themes": [
+    { "id": "tech", "title": "科技与网络", "icon": "💻", "words": "computer laptop screen keyboard mouse internet website email password account download upload file folder software program app application data network wifi online offline search click link video message chat post share like follow comment profile user login logout update install delete save copy" },
+    { "id": "nature", "title": "自然与动物", "icon": "🌳", "words": "nature tree flower grass leaf root seed plant garden forest mountain hill river lake sea ocean beach island sky cloud star moon sun earth soil stone rock sand air water fire animal dog cat bird fish horse cow sheep pig rabbit tiger lion elephant monkey snake insect bee butterfly flower garden weather season climate environment pollution protect" },
+    { "id": "money", "title": "金钱与数字", "icon": "💰", "words": "money cash coin bill bank account card credit debit price cost fee tax salary income expense save spend borrow lend owe pay loan interest profit loss budget cheap expensive free discount total amount number count half double quarter percent dozen first second third hundred thousand million" },
+    { "id": "schedule", "title": "时间安排与约定", "icon": "📅", "words": "schedule plan appointment meeting arrange cancel postpone delay early late punctual available busy free calendar remind deadline urgent soon later immediately today tomorrow tonight weekend weekday morning afternoon evening midnight arrive leave start finish continue wait prepare confirm agree refuse accept invite join visit return stay" }
+  ],
+  "expressions": [
+    { "zh": "我先走了", "en": "I'd better get going", "note": "告辞时的礼貌说法", "example": "It's late — I'd better get going." },
+    { "zh": "别放在心上", "en": "Never mind", "note": "安慰对方 / 表示不重要", "example": "Never mind, it's not a big deal." },
+    { "zh": "我说不好", "en": "I can't say for sure", "note": "表达不确定", "example": "I can't say for sure, but I think so." },
+    { "zh": "差不多吧", "en": "more or less", "note": "大致、差不多", "example": "The work is more or less done." },
+    { "zh": "看情况", "en": "It depends", "note": "视情况而定", "example": "— Will you come? — It depends." },
+    { "zh": "顺便说一下", "en": "by the way", "note": "话题切换", "example": "By the way, did you call him?" },
+    { "zh": "说实话", "en": "to be honest", "note": "坦白表达观点", "example": "To be honest, I don't like it." },
+    { "zh": "总之", "en": "in short", "note": "总结收尾", "example": "In short, we need more time." },
+    { "zh": "正好赶上", "en": "just in time", "note": "刚好及时", "example": "We got there just in time." },
+    { "zh": "排长队", "en": "wait in a long line", "note": "也可说 queue up for a long time", "example": "We had to wait in a long line." },
+    { "zh": "帮我个忙", "en": "do me a favor", "note": "请求帮助", "example": "Could you do me a favor?" },
+    { "zh": "不用担心我", "en": "Don't worry about me", "note": "安慰对方", "example": "Don't worry about me, I'll be fine." },
+    { "zh": "我尽量", "en": "I'll try my best", "note": "承诺尽力", "example": "I'll try my best to finish it today." },
+    { "zh": "一言为定", "en": "It's a deal", "note": "达成一致", "example": "— Ten dollars. — It's a deal." },
+    { "zh": "别迟到", "en": "Don't be late", "note": "提醒守时", "example": "Don't be late for the meeting." },
+    { "zh": "慢慢来", "en": "Take it easy", "note": "也可说 Take your time", "example": "Take it easy, we have enough time." },
+    { "zh": "顺便问一下", "en": "May I ask", "note": "礼貌提问开场", "example": "May I ask where you are from?" },
+    { "zh": "我请你看电影", "en": "It's my treat", "note": "我买单", "example": "Don't pay — it's my treat." },
+    { "zh": "听天由命", "en": "Let's just see how it goes", "note": "顺其自然", "example": "We can't control it — let's just see how it goes." },
+    { "zh": "别太勉强", "en": "Don't push yourself too hard", "note": "关心对方", "example": "Don't push yourself too hard; take a break." }
+  ]
+}

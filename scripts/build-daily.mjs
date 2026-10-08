@@ -37,6 +37,14 @@ for (let i = 1; i < lines.length; i++) {
 console.log("词典可用词条:", dict.size);
 
 const source = JSON.parse(readFileSync(src, "utf8"));
+// 追加扩充包（若存在）：追加主题与表达，按 id 去重
+const addPath = join(root, "..", "data-prep", "daily-bank-additions.json");
+if (existsSync(addPath)) {
+  const add = JSON.parse(readFileSync(addPath, "utf8").replace(/^\uFEFF/, ""));
+  const ids = new Set(source.themes.map(t => t.id));
+  for (const t of add.themes ?? []) if (!ids.has(t.id)) { source.themes.push(t); ids.add(t.id); }
+  source.expressions.push(...(add.expressions ?? []));
+}
 const missing = [];
 const themes = source.themes.map(t => {
   const words = [];
