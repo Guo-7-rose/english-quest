@@ -1,0 +1,180 @@
+{
+  "units": [
+    {
+      "id": "g-1", "no": 1, "title": "英语句子骨架：五大句型",
+      "thinking": "英语是「位置语言」：谁做什么、谁是什么，全靠词的位置固定下来，所以语序不能乱。中文可以说「饭我吃了」，英语必须 I ate the rice —— 位置一换，意思就变（The rice ate me 就荒唐了）。建立「主 + 谓 + 宾」的位置骨架，是英语思维的第一步。",
+      "rules": [
+        { "formula": "S + V", "desc": "主语 + 不及物动词：Birds fly.（鸟飞）" },
+        { "formula": "S + V + O", "desc": "主语 + 及物动词 + 宾语：I love music." },
+        { "formula": "S + V + P", "desc": "主语 + 系动词 + 表语：She is kind.（be 动词后面接「是什么/怎么样」）" },
+        { "formula": "S + V + IO + DO", "desc": "双宾语：He gave me a book.（给我一本书）" },
+        { "formula": "S + V + O + C", "desc": "宾语补足语：They made him captain.（让他当队长）" }
+      ],
+      "examples": [
+        { "en": "I ate the rice.", "zh": "我把饭吃了。", "ok": true },
+        { "en": "The rice ate me.", "zh": "✗ 语序反了 → 意思变成「饭把我吃了」", "ok": false },
+        { "en": "She is a teacher.", "zh": "她是老师。（is 后面接身份，不能省）", "ok": true },
+        { "en": "She a teacher.", "zh": "✗ 英语必须有动词，中文可以省略「是」", "ok": false }
+      ],
+      "mistakes": [
+        "漏掉 be 动词：把「她很漂亮」说成 She very beautiful（应为 She is very beautiful）",
+        "时间/地点状语乱放：英语习惯「主+谓+宾+方式+地点+时间」，别直接套中文语序",
+        "及物动词后漏宾语：I like. ✗ → I like it. ✓"
+      ],
+      "questions": [
+        { "q": "选出正确句子", "options": ["She very happy today.", "She is very happy today.", "She very happy is today.", "Very happy she today."], "answer": 1, "explain": "英语必须有动词，中文「她很开心」省略了「是」，英语要用 is。" },
+        { "q": "「他给了我一块表」英语怎么说？", "options": ["He gave a watch me.", "He gave me a watch.", "He me gave a watch.", "He gave to me a watch."], "answer": 1, "explain": "双宾语结构：give + 人 + 物。" },
+        { "q": "They made him captain. 属于哪个句型？", "options": ["S+V", "S+V+O", "S+V+O+C", "S+V+P"], "answer": 2, "explain": "captain 补充说明 him 的身份，是宾语补足语。" },
+        { "q": "「鸟会飞」最自然的英语是？", "options": ["Birds can fly.", "Birds fly.", "Birds is fly.", "Fly birds."], "answer": 1, "explain": "一般现在时即可表示普遍事实，不需要加 can。" },
+        { "q": "哪个句子缺少动词？", "options": ["I am tired.", "He runs fast.", "My father a doctor.", "We are happy."], "answer": 2, "explain": "My father a doctor 缺 be 动词，应为 My father is a doctor." },
+        { "q": "英语语序通常的排列是？", "options": ["谓语 + 主语 + 宾语", "主语 + 谓语 + 宾语", "宾语 + 主语 + 谓语", "随意排列"], "answer": 1, "explain": "英语靠固定位置表意：主语在前，谓语居中。" }
+      ],
+      "videos": ["is7vn5URVcc"]
+    },
+    {
+      "id": "g-2", "no": 2, "title": "be 动词与「存在」",
+      "thinking": "英语对「是什么状态」和「做什么动作」分得很清楚：状态用 be 动词，动作用实义动词。中文一个「是」可以省，英语的 be 动词不能省，而且要跟着主语变形（am / is / are / was / were）——这是英语「形式必须标记」的典型例子。",
+      "rules": [
+        { "formula": "I → am / He·She·It·单数 → is / You·We·They·复数 → are", "desc": "现在时 be 动词的搭配" },
+        { "formula": "I·He·She·It·单数 → was / You·We·They·复数 → were", "desc": "过去时 be 动词" },
+        { "formula": "There is + 单数/不可数；There are + 复数", "desc": "「有」的存在句型，be 跟着最近的名词走" }
+      ],
+      "examples": [
+        { "en": "I am a student.", "zh": "我是学生。", "ok": true },
+        { "en": "I a student.", "zh": "✗ 缺 be 动词", "ok": false },
+        { "en": "There are two books on the desk.", "zh": "桌上有两本书。", "ok": true },
+        { "en": "There is two books on the desk.", "zh": "✗ 复数要用 are", "ok": false }
+      ],
+      "mistakes": [
+        "把 be 动词和实义动词混用：I am go to school. ✗ → I go to school. ✓",
+        "There be 与 have 混用：「桌上有本书」不用 The desk has a book，常用 There is a book on the desk",
+        "否定和疑问忘了 be：He not happy ✗ → He is not happy ✓"
+      ],
+      "questions": [
+        { "q": "I ___ a teacher.", "options": ["is", "am", "are", "be"], "answer": 1, "explain": "第一人称单数用 am。" },
+        { "q": "There ___ some milk in the cup.", "options": ["is", "are", "be", "have"], "answer": 0, "explain": "milk 不可数，用 is。" },
+        { "q": "They ___ at home yesterday.", "options": ["was", "were", "are", "is"], "answer": 1, "explain": "过去时复数用 were。" },
+        { "q": "选出正确的否定句", "options": ["He not is happy.", "He is not happy.", "He not happy.", "He doesn't happy."], "answer": 1, "explain": "be 动词的否定直接加 not 在 be 后面。" },
+        { "q": "「桌上有一本书和两支笔」应选？", "options": ["There are a book and two pens.", "There is a book and two pens.", "There have a book and two pens.", "There be a book and two pens."], "answer": 1, "explain": "就近原则：离 be 最近的是 a book（单数），用 is。" },
+        { "q": "哪句语法错误？", "options": ["I am happy.", "She is my sister.", "We are students.", "You is kind."], "answer": 3, "explain": "You 后面要用 are：You are kind." }
+      ],
+      "videos": ["is7vn5URVcc"]
+    },
+    {
+      "id": "g-3", "no": 3, "title": "名词与可数性",
+      "thinking": "英语对名词有一道中文没有的强制关卡：这个词能不能数？能数就得区分单复数，不能数就不能加 a/an 也不能加 -s。中文说「information」和「book」感觉差不多，英语里 information 永远不加 -s，book 不加 -s 就一定是单数——这就是「形式必须明确」的思维。",
+      "rules": [
+        { "formula": "可数名词单数前必须有限定词：a / an / the / my / this", "desc": "不能裸奔：I have book ✗ → I have a book ✓" },
+        { "formula": "可数名词复数加 -s / -es（city → cities, box → boxes）", "desc": "不规则：man → men, child → children, foot → feet" },
+        { "formula": "不可数名词不加 -s，用 much / a lot of 修饰", "desc": "information, advice, furniture, water, money, news" }
+      ],
+      "examples": [
+        { "en": "I need some information.", "zh": "我需要一些信息。", "ok": true },
+        { "en": "I need some informations.", "zh": "✗ information 不可数", "ok": false },
+        { "en": "He gave me two pieces of advice.", "zh": "他给了我两条建议。（不可数用「量词 + of」）", "ok": true },
+        { "en": "He gave me two advices.", "zh": "✗ advice 不可数", "ok": false }
+      ],
+      "mistakes": [
+        "不可数名词加 -s：informations / advices / furnitures / equipments 都是错的",
+        "可数名词单数裸奔：I bought car ✗ → I bought a car ✓",
+        "把 news、money 当复数：news 是单数概念（The news is good）"
+      ],
+      "questions": [
+        { "q": "一名词复数形式错误的是？", "options": ["boxes", "cities", "mans", "children"], "answer": 2, "explain": "man 的复数是 men。" },
+        { "q": "I need ___ advice.", "options": ["a", "an", "some", "many"], "answer": 2, "explain": "advice 不可数，用 some 修饰。" },
+        { "q": "哪句正确？", "options": ["She gave me two informations.", "She gave me two pieces of information.", "She gave me two information.", "She gave me an information."], "answer": 1, "explain": "不可数名词用「数词 + 量词 + of + 名词」。" },
+        { "q": "「我有三本书」", "options": ["I have three book.", "I have three books.", "I have three of book.", "I have book three."], "answer": 1, "explain": "可数名词复数要加 -s。" },
+        { "q": "哪个词是不可数名词？", "options": ["apple", "student", "furniture", "city"], "answer": 2, "explain": "furniture（家具）不可数，不说 furnitures。" },
+        { "q": "The news ___ good today.", "options": ["are", "is", "were", "be"], "answer": 1, "explain": "news 形式是复数，但作单数用，配 is。" }
+      ],
+      "videos": ["is7vn5URVcc"]
+    },
+    {
+      "id": "g-4", "no": 4, "title": "冠词 a / an / the",
+      "thinking": "中文没有冠词，所以这是中国人最容易漏的一环。英语在名词前必须回答一个问题：听话人知道我说的是哪一个吗？不知道 → a/an（泛指）；知道 → the（特指）。不是「规则多」，而是英语要求你每次说名词都表明「确定还是不确定」。",
+      "rules": [
+        { "formula": "a + 辅音音素开头；an + 元音音素开头", "desc": "看读音不看字母：an hour（h 不发音）, a university（读 /juː/）" },
+        { "formula": "the = 双方都知道的那个", "desc": "第二次提到、独一无二、最高级、方位、乐器前常用 the" },
+        { "formula": "零冠词：泛指复数 / 不可数 / 三餐 / 球类 / 学科", "desc": "I like apples. / play football / have breakfast" }
+      ],
+      "examples": [
+        { "en": "I saw a dog. The dog was big.", "zh": "我看到一只狗。那只狗很大。（第二次提到用 the）", "ok": true },
+        { "en": "I saw dog. Dog was big.", "zh": "✗ 名词前缺冠词", "ok": false },
+        { "en": "The sun rises in the east.", "zh": "太阳从东边升起。（独一无二 + 方位用 the）", "ok": true },
+        { "en": "Sun rises in east.", "zh": "✗ 漏 the", "ok": false }
+      ],
+      "mistakes": [
+        "该用 the 的地方用 a：the tallest boy（最高级前必须 the）",
+        "球类/三餐前多加 the：play the football ✗ / have the breakfast ✗",
+        "an 用错：an university ✗（读音是 /juː/ 辅音开头，用 a）"
+      ],
+      "questions": [
+        { "q": "He is ___ honest boy.", "options": ["a", "an", "the", "不填"], "answer": 1, "explain": "honest 的 h 不发音，读音以元音开头 → an。" },
+        { "q": "She is ___ tallest girl in our class.", "options": ["a", "an", "the", "不填"], "answer": 2, "explain": "最高级前用 the。" },
+        { "q": "I play ___ basketball after school.", "options": ["a", "an", "the", "不填"], "answer": 3, "explain": "球类运动前不加冠词。" },
+        { "q": "He is ___ university student.", "options": ["a", "an", "the", "不填"], "answer": 0, "explain": "university 读 /ˌjuːnɪˈvɜːsəti/，以辅音音素 /j/ 开头，用 a。" },
+        { "q": "There is ___ hour left.", "options": ["a", "an", "the", "不填"], "answer": 1, "explain": "hour 的 h 不发音，元音开头用 an。" },
+        { "q": "第一次提到、对方不知道是哪一个，应该用？", "options": ["the", "a / an", "不填", "this"], "answer": 1, "explain": "泛指（对方不知道是哪一个）用 a/an。" }
+      ],
+      "videos": ["bYGVys2RdlY", "7TjOxnsvupE", "bgaRN0iPPdA"]
+    },
+    {
+      "id": "g-5", "no": 5, "title": "代词：避免重复的手段",
+      "thinking": "英语不喜欢重复名词，所以第二次提到就用代词，并且代词的「格」要跟着它在句中的位置变：作主语用 I，作宾语用 me，表所属用 my/mine。中文「我的」一个词管到底，英语要分 my（后面接名词）和 mine（独立使用）。",
+      "rules": [
+        { "formula": "主格：I / you / he / she / it / we / they（作主语）", "desc": "She likes music." },
+        { "formula": "宾格：me / you / him / her / it / us / them（动词或介词后）", "desc": "Give it to me." },
+        { "formula": "形容词性物主代词 + 名词；名词性物主代词独立用", "desc": "my book = mine；This is my book. / This book is mine." }
+      ],
+      "examples": [
+        { "en": "This is my book. It is mine.", "zh": "这是我的书，它是我的。", "ok": true },
+        { "en": "This is mine book.", "zh": "✗ mine 后面不能接名词", "ok": false },
+        { "en": "Between you and me, he is wrong.", "zh": "私下说，他错了。（介词后用宾格 me）", "ok": true },
+        { "en": "Between you and I, he is wrong.", "zh": "✗ 介词后要用宾格", "ok": false }
+      ],
+      "mistakes": [
+        "介词后用主格：with he ✗ → with him ✓",
+        "my 和 mine 混用",
+        "its 与 it's 混淆：its 是「它的」，it's = it is"
+      ],
+      "questions": [
+        { "q": "This book is ___.", "options": ["my", "mine", "me", "I"], "answer": 1, "explain": "独立使用要用名词性物主代词 mine。" },
+        { "q": "Give the pen to ___.", "options": ["I", "me", "my", "mine"], "answer": 1, "explain": "介词 to 后面用宾格 me。" },
+        { "q": "___ is my best friend.", "options": ["Her", "She", "Hers", "Herself"], "answer": 1, "explain": "作主语用主格 She。" },
+        { "q": "The cat is washing ___ face.", "options": ["it", "it's", "its", "itself"], "answer": 2, "explain": "its = 它的，后接名词。" },
+        { "q": "We often help ___.", "options": ["each other", "each others", "one other", "each another"], "answer": 0, "explain": "相互代词 each other 固定搭配。" },
+        { "q": "哪句错误？", "options": ["I like her.", "He gave me a gift.", "This is mine pen.", "They are our friends."], "answer": 2, "explain": "mine 后面不能接名词，应为 my pen。" }
+      ],
+      "videos": ["is7vn5URVcc"]
+    },
+    {
+      "id": "g-6", "no": 6, "title": "一般现在时：事实与习惯",
+      "thinking": "英语把「时间」编码进动词形态，这是和中文最大的差别之一。中文说「他每天跑步」，靠「每天」表时间；英语说 He runs every day，即使去掉 every day，runs 这个 -s 也在告诉对方「这是习惯/常态」。换句话说：英语的时间信息，一半藏在动词里。",
+      "rules": [
+        { "formula": "主语 + 动词原形（I / you / we / they / 复数）", "desc": "They play football." },
+        { "formula": "主语（he / she / it / 单数）+ 动词 -s / -es", "desc": "She plays. / He watches. / She studies." },
+        { "formula": "否定：don't / doesn't + 动词原形；疑问：Do / Does + 主语 + 动词原形", "desc": "She doesn't like coffee. / Does he play?" }
+      ],
+      "examples": [
+        { "en": "He goes to school by bus.", "zh": "他坐公交上学。（三单加 -es）", "ok": true },
+        { "en": "He go to school by bus.", "zh": "✗ 三单漏 -es", "ok": false },
+        { "en": "Does she like music?", "zh": "她喜欢音乐吗？（Does 后面的动词还原）", "ok": true },
+        { "en": "Does she likes music?", "zh": "✗ Does 后面动词不能再加 -s", "ok": false }
+      ],
+      "mistakes": [
+        "三单忘记加 -s / -es",
+        "Does 后面动词重复加 -s",
+        "否定句里加 -s：She doesn't likes ✗"
+      ],
+      "questions": [
+        { "q": "My mother ___ TV in the evening.", "options": ["watch", "watches", "watching", "watched"], "answer": 1, "explain": "三单加 -es（watch → watches）。" },
+        { "q": "___ your father work in a hospital?", "options": ["Do", "Does", "Is", "Are"], "answer": 1, "explain": "主语 your father 是三单，用 Does。" },
+        { "q": "She ___ like coffee.", "options": ["don't", "doesn't", "isn't", "not"], "answer": 1, "explain": "三单否定用 doesn't + 动词原形。" },
+        { "q": "Water ___ at 100°C.", "options": ["boil", "boils", "boiling", "boiled"], "answer": 1, "explain": "客观事实用一般现在时，三单加 -s。" },
+        { "q": "They ___ English every morning.", "options": ["reads", "read", "reading", "is read"], "answer": 1, "explain": "主语 They 是复数，用动词原形。" },
+        { "q": "哪句正确？", "options": ["Does he goes to school?", "Does he go to school?", "Do he go to school?", "Does he going to school?"], "answer": 1, "explain": "Does 后面动词必须用原形。" }
+      ],
+      "videos": ["P5FrIGgyNSc", "is7vn5URVcc"]
+    }
+  ]
+}

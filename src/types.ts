@@ -70,6 +70,22 @@ export interface Profile {
 
 export interface GrammarQuestion { q: string; options: string[]; answer: number; }
 
+/** v2 语法单元：英语思维六段式 */
+export interface GrammarRule { formula: string; desc: string; }
+export interface GrammarExample { en: string; zh: string; ok: boolean; }
+export interface GrammarQuestionV2 { q: string; options: string[]; answer: number; explain: string; }
+export interface GrammarUnitV2 {
+  id: string;
+  no: number;
+  title: string;
+  thinking: string;
+  rules: GrammarRule[];
+  examples: GrammarExample[];
+  mistakes: string[];
+  questions: GrammarQuestionV2[];
+  videos: string[];
+}
+
 export interface GrammarUnit {
   id: string;
   stage: number;

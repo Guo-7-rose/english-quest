@@ -33,10 +33,25 @@ describe("app shell 集成（v2 八板块）", () => {
     }
   });
 
-  it("语法板块：单元列表可进入", async () => {
+  it("语法板块：12 单元 → 六段式单元页 → 练习作答", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="grammar"]') as HTMLElement).click();
-    expect(document.querySelectorAll("#view-grammar .card").length).toBeGreaterThan(2);
+    const cards = document.querySelectorAll("#view-grammar .card");
+    expect(cards.length).toBe(13); // 标题卡 + 12 单元
+    // 进入第 1 单元
+    (cards[1] as HTMLElement).click();
+    const text = document.querySelector("#view-grammar")!.textContent ?? "";
+    expect(text).toContain("英语思维");
+    expect(text).toContain("规则");
+    expect(text).toContain("常见错误");
+    expect(text).toContain("配套视频");
+    // 答第 1 题（正确答案 data-i 由数据给出，直接点正确项）
+    const firstUnit = (await import("../src/data/grammar")).getGrammarUnit("g-1")!;
+    const correctIdx = firstUnit.questions[0]!.answer;
+    const opt = document.querySelector(`.quiz-option[data-i="${correctIdx}"]`) as HTMLElement;
+    opt.click();
+    expect(opt.className).toContain("ok");
+    expect(document.querySelector("#explain")!.textContent).toContain("正确");
   });
 
   it("单词板块：四个板块按 日常→初中→高中→四级 顺序且无锁", async () => {

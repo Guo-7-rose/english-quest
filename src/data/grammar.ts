@@ -1,12 +1,17 @@
-import type { GrammarUnit } from "../types";
-import stage1 from "./grammar-stage1.json";
+import type { GrammarUnitV2 } from "../types";
+import core1 from "./grammar-core-1.json";
+import core2 from "./grammar-core-2.json";
 
-const RAW: unknown[] = [stage1];
+const RAW: unknown[] = [core1, core2];
 
-export const ALL_GRAMMAR: GrammarUnit[] = RAW.flatMap(
-  (e) => (e as { units: GrammarUnit[] }).units
+export const ALL_UNITS: GrammarUnitV2[] = RAW.flatMap(
+  (e) => (e as { units: GrammarUnitV2[] }).units
 );
 
-export function getGrammarStage(stage: number): GrammarUnit[] {
-  return ALL_GRAMMAR.filter((u) => u.stage === stage);
+export function getGrammarUnits(): GrammarUnitV2[] {
+  return [...ALL_UNITS].sort((a, b) => a.no - b.no);
+}
+
+export function getGrammarUnit(id: string): GrammarUnitV2 | undefined {
+  return ALL_UNITS.find(u => u.id === id);
 }
