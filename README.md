@@ -4,13 +4,28 @@
 
 > v2 改造：移除打字练习，改为**词根词缀（前缀/词根/后缀）拆解记忆**；语法升级为**英语思维六段式**并配套已核验的 YouTube 视频；所有板块取消锁定。
 
-## 🚀 使用（零安装）
+## 📱 手机使用（推荐）
+
+**在线地址（PWA，可装到主屏幕）**：<https://guo-7-rose.github.io/english-quest/>
+
+安装步骤：
+
+1. 手机浏览器打开上面的链接
+2. **iPhone Safari**：底部分享按钮 → 「添加到主屏幕」
+3. **Android Chrome**：右上角菜单 → 「添加到主屏幕 / 安装应用」
+4. 之后点主屏幕图标即可全屏打开；**首次打开后断网也能用**（Service Worker 已缓存页面，视频仍需联网）
+
+手机版特性：底部标签栏（面板/单词/词根/语法/复习 + 更多）、44px 触控按钮、全面屏安全区适配。
+
+## 💻 电脑使用（零安装）
 
 **直接双击 `dist/index.html`** 即可使用。
 
 - 纯离线单文件：无服务器、无需安装、除视频播放外零联网
 - 学习进度存浏览器 localStorage（清理浏览器数据会重置）
 - 重新构建：`npm.cmd install && npm.cmd run build`
+
+> 注意：本地 `file://` 打开时浏览器不允许注册 Service Worker，因此没有「添加到主屏幕/离线缓存」，但所有功能正常。要完整体验 PWA 请用上面的在线地址。
 
 ## 📚 八个板块（全部解锁）
 
@@ -78,6 +93,24 @@ npm.cmd run dev     # 开发服务器
 npm.cmd run build   # 产出单文件 dist/index.html
 npx.cmd tsc --noEmit
 ```
+
+## 🚢 更新线上版本（部署）
+
+线上站点由 `gh-pages` 分支提供，内容就是 `dist/` 的构建产物。更新流程：
+
+```powershell
+npm.cmd run build
+$tmp = Join-Path $env:TEMP "eq-pages"
+Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force -Path $tmp | Out-Null
+Copy-Item dist\* $tmp -Recurse -Force
+Set-Content -Path (Join-Path $tmp ".nojekyll") -Value ""
+git -C $tmp init -q; git -C $tmp add -A; git -C $tmp commit -q -m "deploy: 更新"
+git -C $tmp branch -M gh-pages
+git -C $tmp -c credential.helper="!gh auth git-credential" push --force https://github.com/Guo-7-rose/english-quest.git gh-pages
+```
+
+> 为什么不用 GitHub Actions 自动部署？当前 gh CLI 的 OAuth token 没有 `workflow` 权限，GitHub 会拒绝推送 `.github/workflows/` 下的文件。示例工作流已保存在 [scripts/deploy-workflow.yml.example](scripts/deploy-workflow.yml.example)；执行一次 `gh auth refresh -s workflow` 授权后即可改用自动部署。
 
 ## ⚠️ 使用说明与版权
 
