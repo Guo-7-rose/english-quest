@@ -1,0 +1,178 @@
+{
+  "units": [
+    {
+      "id": "g-18", "no": 18, "title": "宾语从句：把一句话当成宾语",
+      "thinking": "英语允许把整个句子「降级」成一个名词，塞进宾语的位置。关键变化有三点：用 that/if/whether/疑问词引导，语序必须回到「主语 + 谓语」（不能像疑问句那样倒装），时态要跟主句保持呼应。中文说「我不知道他在哪」，语序照抄就行；英语却要 I don't know where he is —— 语序被重置了。",
+      "rules": [
+        { "formula": "主句 + that / whether(if) / 疑问词 + 陈述语序", "desc": "I think (that) he is right. / I wonder if he will come." },
+        { "formula": "宾语从句一律用陈述语序", "desc": "Do you know where he lives?（不是 where does he live）" },
+        { "formula": "主句是过去时 → 从句时态相应后退", "desc": "He said he was busy. / She asked what I wanted." }
+      ],
+      "examples": [
+        { "en": "I don't know where he is.", "zh": "我不知道他在哪。", "ok": true },
+        { "en": "I don't know where is he.", "zh": "✗ 从句要用陈述语序", "ok": false },
+        { "en": "She asked if I liked coffee.", "zh": "她问我是否喜欢咖啡。", "ok": true },
+        { "en": "She asked if did I like coffee.", "zh": "✗ 从句不倒装", "ok": false }
+      ],
+      "mistakes": [
+        "从句里保留疑问语序：where does he live ✗",
+        "whether 与 if 混用（介词后、句首、or not 前只能用 whether）",
+        "主句过去时但从句用现在时（时态不呼应）：He said he is busy ✗"
+      ],
+      "questions": [
+        { "q": "Do you know where ___?", "options": ["does he live", "he lives", "he live", "did he live"], "answer": 1, "explain": "宾语从句用陈述语序。" },
+        { "q": "She asked me ___ I had finished.", "options": ["that", "if", "what", "which"], "answer": 1, "explain": "「是否」用 if / whether。" },
+        { "q": "He said that he ___ tired.", "options": ["is", "was", "be", "were"], "answer": 1, "explain": "主句过去时，从句时态后退：was。" },
+        { "q": "哪句正确？", "options": ["I wonder what is he doing.", "I wonder what he is doing.", "I wonder what does he do.", "I wonder what he does doing."], "answer": 1, "explain": "从句用陈述语序。" },
+        { "q": "介词后面表示「是否」只能用？", "options": ["if", "whether", "that", "what"], "answer": 1, "explain": "介词后、or not 前、句首用 whether。" },
+        { "q": "宾语从句的语序规则是？", "options": ["疑问语序", "陈述语序（主语 + 谓语）", "倒装语序", "随意"], "answer": 1, "explain": "从句永远是陈述语序。" }
+      ],
+      "videos": ["6n-HExTrJak", "PSAq2EJUxXc"]
+    },
+    {
+      "id": "g-19", "no": 19, "title": "定语从句：给名词加一条说明",
+      "thinking": "中文习惯把修饰语放前面（「我昨天买的书」），英语则把长修饰语放到名词后面，用 who/which/that 引出一条从句。这就是「英语喜欢右展开」的思维：主干先说清，补充信息往后挂。理解这一点，就明白为什么英语句子常显得「后面越拖越长」。",
+      "rules": [
+        { "formula": "先行词（人）+ who/that；先行词（物）+ which/that", "desc": "The man who called you is my uncle." },
+        { "formula": "关系词在从句中作宾语时可省略", "desc": "The book (that) I bought is good." },
+        { "formula": "非限制性定语从句用逗号隔开，只能用 which/who，不能用 that", "desc": "My father, who is a doctor, works here." }
+      ],
+      "examples": [
+        { "en": "The book that I bought yesterday is interesting.", "zh": "我昨天买的那本书很有意思。", "ok": true },
+        { "en": "The book I bought it yesterday is interesting.", "zh": "✗ 关系词已作宾语，不能再加 it", "ok": false },
+        { "en": "My mother, who is a teacher, loves reading.", "zh": "我妈妈是老师，她爱读书。（非限制性）", "ok": true },
+        { "en": "My mother, that is a teacher, loves reading.", "zh": "✗ 非限制性从句不能用 that", "ok": false }
+      ],
+      "mistakes": [
+        "从句里重复宾语：the book that I bought it ✗",
+        "该用 which 的地方用 that（非限制性从句）",
+        "关系词选错：人用 which ✗（应为 who）"
+      ],
+      "questions": [
+        { "q": "The girl ___ is singing is my sister.", "options": ["which", "who", "whom", "whose"], "answer": 1, "explain": "先行词是人且在从句作主语，用 who。" },
+        { "q": "This is the house ___ I lived in.", "options": ["who", "which", "whose", "whom"], "answer": 1, "explain": "先行词是物，用 which（也可用 that）。" },
+        { "q": "哪句正确？", "options": ["The film that I saw it was good.", "The film that I saw was good.", "The film what I saw was good.", "The film who I saw was good."], "answer": 1, "explain": "关系词作宾语，从句内不再重复 it。" },
+        { "q": "Mr. Li, ___ teaches English, is popular.", "options": ["that", "who", "which", "whose"], "answer": 1, "explain": "非限制性定语从句指人用 who。" },
+        { "q": "I know a boy ___ father is a pilot.", "options": ["who", "whose", "which", "whom"], "answer": 1, "explain": "表示所属关系用 whose。" },
+        { "q": "英语习惯把长修饰语放在名词的？", "options": ["前面", "后面", "中间", "随意"], "answer": 1, "explain": "英语右展开：修饰语后置。" }
+      ],
+      "videos": ["tRPDt_V9g3g", "BsbS8RyklPk", "6n-HExTrJak"]
+    },
+    {
+      "id": "g-20", "no": 20, "title": "状语从句：说明时间、原因、条件",
+      "thinking": "英语用从句交代「什么时候、为什么、什么条件下」，而且有一条中文没有的规则：**时间/条件状语从句里不能用 will**，要用一般现在时表将来（When he comes, I will tell him）。因为英语认为「从句先发生、主句后发生」，从句不用再标记将来。掌握这条，就抓住了状语从句最容易出错的地方。",
+      "rules": [
+        { "formula": "时间：when / while / before / after / as soon as / until", "desc": "As soon as he arrives, we will start." },
+        { "formula": "条件：if / unless / as long as", "desc": "If it rains, we will stay home." },
+        { "formula": "原因/结果：because / since / so … that / such … that", "desc": "He was so tired that he fell asleep." }
+      ],
+      "examples": [
+        { "en": "When he comes, I will tell him.", "zh": "他来了我就告诉他。（从句用现在时）", "ok": true },
+        { "en": "When he will come, I will tell him.", "zh": "✗ 时间状语从句不用 will", "ok": false },
+        { "en": "Unless you hurry, you will be late.", "zh": "除非你快点，否则会迟到。", "ok": true },
+        { "en": "Because he was ill, so he didn't come.", "zh": "✗ because 与 so 不能同时用", "ok": false }
+      ],
+      "mistakes": [
+        "时间/条件状语从句里用 will",
+        "because 和 so 连用、although 和 but 连用（中文习惯，英语不行）",
+        "so…that 与 such…that 混用（so + 形容词/副词；such + 名词短语）"
+      ],
+      "questions": [
+        { "q": "I will call you as soon as I ___ home.", "options": ["will get", "get", "got", "am getting"], "answer": 1, "explain": "时间状语从句用一般现在时表将来。" },
+        { "q": "___ you study hard, you will pass.", "options": ["If", "Though", "Because", "While"], "answer": 0, "explain": "条件用 if。" },
+        { "q": "哪句正确？", "options": ["Although he is rich, but he is unhappy.", "Although he is rich, he is unhappy.", "Because he is rich, so he is happy.", "He is rich, although but unhappy."], "answer": 1, "explain": "although 不与 but 连用。" },
+        { "q": "He was ___ tired that he fell asleep at once.", "options": ["such", "so", "very", "too"], "answer": 1, "explain": "so + 形容词 + that。" },
+        { "q": "___ it rains tomorrow, we will cancel the trip.", "options": ["If", "Because", "Although", "So"], "answer": 0, "explain": "条件状语从句。" },
+        { "q": "时间状语从句表将来时，谓语用？", "options": ["will + 动词", "一般现在时", "过去时", "现在完成时"], "answer": 1, "explain": "从句用一般现在时，主句用 will。" }
+      ],
+      "videos": ["pO_yUitwcDo", "SYatdZPWUIE"]
+    },
+    {
+      "id": "g-21", "no": 21, "title": "名词性从句：主语、表语、同位语",
+      "thinking": "宾语从句你已经会了，其实同一个「句子降级成名词」的机制还能放在主语位置（主语从句）、be 动词后面（表语从句）、名词后面解释内容（同位语从句）。英语对「从句在句中担任什么角色」非常敏感，这就是为什么同一个 that 引导的从句，语法功能却完全不同——判断方法永远是问：它在句里顶替了哪个名词？",
+      "rules": [
+        { "formula": "主语从句：What he said / That he lied + 谓语", "desc": "What he said is true. / It is important that you come." },
+        { "formula": "表语从句：be + that / whether / 疑问词从句", "desc": "The problem is that we have no time." },
+        { "formula": "同位语从句：抽象名词（fact / idea / news）+ that 从句解释内容", "desc": "The fact that he lied surprised us." }
+      ],
+      "examples": [
+        { "en": "What he said is true.", "zh": "他说的是真的。（主语从句）", "ok": true },
+        { "en": "That he said is true.", "zh": "✗ 缺成分，应改为 What he said", "ok": false },
+        { "en": "The problem is that we have no time.", "zh": "问题是我们没有时间。（表语从句）", "ok": true },
+        { "en": "The news that he won made us happy.", "zh": "他获胜的消息让我们很高兴。（同位语从句）", "ok": true }
+      ],
+      "mistakes": [
+        "主语从句用 that 时忘记形式主语 it（It is important that…）",
+        "what 与 that 混用（what = 先行词 + 关系词，本身在从句中作成分）",
+        "同位语从句与定语从句混淆（同位语从句 that 不作成分，只起连接作用）"
+      ],
+      "questions": [
+        { "q": "___ she said made me angry.", "options": ["That", "What", "Which", "It"], "answer": 1, "explain": "what 在从句中作宾语，等于「她说的（话）」。" },
+        { "q": "It is important ___ we protect the environment.", "options": ["what", "that", "which", "if"], "answer": 1, "explain": "It 作形式主语，真正主语是 that 从句。" },
+        { "q": "The reason is ___ he was late.", "options": ["because", "that", "why", "what"], "answer": 1, "explain": "表语从句用 that（reason is that…）。" },
+        { "q": "The fact ___ she passed the exam surprised us.", "options": ["which", "that", "what", "who"], "answer": 1, "explain": "同位语从句解释 fact 的内容。" },
+        { "q": "what 与 that 的关键区别是？", "options": ["没区别", "what 本身在从句中作成分，that 只连接不作成分", "that 更长", "what 只用于疑问句"], "answer": 1, "explain": "what 有实义、作成分；that 只是连接词。" },
+        { "q": "哪句正确？", "options": ["That he said is true.", "What he said is true.", "Which he said is true.", "It he said is true."], "answer": 1, "explain": "从句缺宾语，要用 what。" }
+      ],
+      "videos": ["RzeNoCXBtXs", "AXeRHJSi6z8", "6n-HExTrJak"]
+    },
+    {
+      "id": "g-22", "no": 22, "title": "语篇连接：让句子之间有关系",
+      "thinking": "英语写作的评分点常常不在单句，而在「句子之间有没有逻辑关系」。中文可以靠意合（意思连上就行），英语更依赖显性连接词：转折 however、因果 therefore、递进 moreover、举例 for instance。这一单元的思维是：**让逻辑关系出现在字面上**，而不是让读者猜。",
+      "rules": [
+        { "formula": "转折：however / nevertheless / on the contrary", "desc": "放在句首并加逗号：However, the result was different." },
+        { "formula": "因果：therefore / thus / as a result / consequently", "desc": "He was late. Therefore, he missed the train." },
+        { "formula": "递进/补充：moreover / furthermore / in addition / besides", "desc": "Moreover, the cost is too high." }
+      ],
+      "examples": [
+        { "en": "The task is hard. However, we can finish it.", "zh": "任务很难，但我们可以完成。", "ok": true },
+        { "en": "The task is hard. But however, we can finish it.", "zh": "✗ but 与 however 不能叠用", "ok": false },
+        { "en": "He studied hard. As a result, he passed.", "zh": "他努力学习，结果通过了。", "ok": true },
+        { "en": "He studied hard. As a result of, he passed.", "zh": "✗ as a result of 后面要接名词", "ok": false }
+      ],
+      "mistakes": [
+        "but 与 however、because 与 so 同时使用",
+        "连接副词当连词用（However he was tired. ✗ 需加逗号或用 but）",
+        "逗号连接两个完整句子（comma splice），应用分号或连接词"
+      ],
+      "questions": [
+        { "q": "He was ill. ___ , he still came to work.", "options": ["Therefore", "However", "Moreover", "For example"], "answer": 1, "explain": "前后是转折关系。" },
+        { "q": "It rained heavily. ___ , the match was cancelled.", "options": ["However", "As a result", "In addition", "For instance"], "answer": 1, "explain": "因果关系用 as a result。" },
+        { "q": "哪句正确？", "options": ["He is rich. But however he is sad.", "He is rich. However, he is sad.", "He is rich, however he is sad.", "He is rich however, he is sad."], "answer": 1, "explain": "however 单独使用并加逗号。" },
+        { "q": "表示「此外、而且」的是？", "options": ["Moreover", "Therefore", "However", "Otherwise"], "answer": 0, "explain": "moreover 表递进。" },
+        { "q": "逗号连接两个完整句子在英语中称为？", "options": ["正确写法", "comma splice（需改为分号或加连词）", "强调句式", "省略句"], "answer": 1, "explain": "这是常见写作错误。" },
+        { "q": "英语写作更看重？", "options": ["句子越长越好", "句间逻辑明确（显性连接）", "词越难越好", "避免使用连接词"], "answer": 1, "explain": "英语偏好显性逻辑连接。" }
+      ],
+      "videos": ["is7vn5URVcc"]
+    },
+    {
+      "id": "g-23", "no": 23, "title": "英语思维专题：信息结构与焦点",
+      "thinking": "把前面 22 个单元串起来看，英语有一条贯穿始终的习惯：**重要的信息放前面，新信息放后面**，并且用形式把它标出来（被动语态换焦点、there be 引出新事物、it 作形式主语后置真主语、倒装强调）。中文常靠语境和语气词，英语靠结构。学会「先定焦点、再选结构」，你的句子会立刻变得像英语。",
+      "rules": [
+        { "formula": "已知信息在前，新信息在后", "desc": "A man came in. The man was carrying a box.（第二次用 the）" },
+        { "formula": "强调新事物用 there be；强调受事用被动", "desc": "There is a problem. / The problem was solved." },
+        { "formula": "长主语用 it 后置；想强调用倒装", "desc": "It is important to sleep well. / Never have I seen this." }
+      ],
+      "examples": [
+        { "en": "There is a book on the desk.", "zh": "桌上有一本书。（引出新信息）", "ok": true },
+        { "en": "A book is on the desk.", "zh": "△ 语法可通，但英语更常用 there be 引出新事物", "ok": false },
+        { "en": "It is hard to learn a language well.", "zh": "学好一门语言很难。（it 后置长主语）", "ok": true },
+        { "en": "To learn a language well is hard.", "zh": "△ 语法对，但显得头重脚轻，英语更常用 it 结构", "ok": false }
+      ],
+      "mistakes": [
+        "把中文「有」直译成 have：The desk has a book ✗（应为 There is a book on the desk）",
+        "主语过长不后置，造成头重脚轻",
+        "焦点混乱：该用被动时硬用主动，导致主语莫名其妙"
+      ],
+      "questions": [
+        { "q": "「桌上有一本书」最自然的英语是？", "options": ["The desk has a book.", "There is a book on the desk.", "A book there is on the desk.", "On the desk has a book."], "answer": 1, "explain": "引出新事物用 there be。" },
+        { "q": "「学好英语很重要」更地道的说法是？", "options": ["Learn English well is important.", "It is important to learn English well.", "Learning English well important.", "Important is learn English."], "answer": 1, "explain": "it 作形式主语，真主语后置。" },
+        { "q": "第二次提到同一事物时应用？", "options": ["a", "the", "some", "不填"], "answer": 1, "explain": "已知信息用 the。" },
+        { "q": "想强调「受事」时用什么结构？", "options": ["there be", "被动语态", "倒装", "祈使句"], "answer": 1, "explain": "被动语态把受事提到主语位置。" },
+        { "q": "英语信息结构的一般原则是？", "options": ["新信息在前", "已知在前、新信息在后", "随机排列", "越长越靠前"], "answer": 1, "explain": "已知信息先出现，新信息靠后。" },
+        { "q": "中文「这栋楼是 1990 年建的」用英语更自然的是？", "options": ["This building built in 1990.", "This building was built in 1990.", "This building is build in 1990.", "1990 built this building."], "answer": 1, "explain": "焦点在楼，用被动。" }
+      ],
+      "videos": ["is7vn5URVcc", "kyOCMfcoqNc", "nDsNbXuvmDg"]
+    }
+  ]
+}
