@@ -3,20 +3,18 @@ import "./styles/components.css";
 import { loadAll, save } from "./store/storage";
 import type { AppState } from "./types";
 import { renderHome } from "./views/home";
-import { renderMap } from "./views/map";
-import { renderTypingView, bindTyping, attachTypingKeys } from "./views/typing";
+import { renderWordbank } from "./views/wordbank";
+import { renderRoots } from "./views/roots";
 import { renderGrammar, bindGrammar } from "./views/grammar";
+import { renderVideos } from "./views/videos";
+import { renderReview } from "./views/review";
 import { renderStats } from "./views/stats";
 import { renderSettings, applyTheme } from "./views/settings";
-import { renderQuiz, bindQuiz } from "./views/quiz";
-import { getStage } from "./data/words";
 import { initAudio } from "./fx/audio";
-import type { StageId } from "./types";
 
 let state: AppState = loadAll();
 const app = document.getElementById("app")!;
 let currentView = "home";
-let currentChapterId: string | null = null;
 
 app.innerHTML = `
   <div class="app">
@@ -29,8 +27,14 @@ app.innerHTML = `
   </div>`;
 
 const NAVS: Array<[string, string]> = [
-  ["home", "🏠 首页"], ["map", "🗺️ 闯关地图"], ["typing", "⌨️ 单词训练"],
-  ["grammar", "📖 语法训练"], ["stats", "📊 数据中心"], ["settings", "⚙️ 设置"],
+  ["home", "🏠 学习面板"],
+  ["wordbank", "📚 单词板块"],
+  ["roots", "🌱 词根词缀库"],
+  ["grammar", "📖 语法训练"],
+  ["videos", "🎬 视频课"],
+  ["review", "🔁 复习"],
+  ["stats", "📊 数据"],
+  ["settings", "⚙️ 设置"],
 ];
 
 function renderNav(): void {
@@ -48,45 +52,32 @@ function refreshTopbar(): void {
     <div class="pill">🏅 Lv.<span class="val">${state.profile.level}</span></div>`;
 }
 
-function navigate(view: string, chapterId: string | null = null, stage: StageId | null = null): void {
+function navigate(view: string, arg?: string): void {
   currentView = view;
-  currentChapterId = chapterId;
   renderNav();
   refreshTopbar();
   const root = document.getElementById("views")!;
   root.innerHTML = `<section id="view-${view}" style="display:block"></section>`;
   const el = document.getElementById(`view-${view}`)!;
   if (view === "home") renderHome(el, state);
-  else if (view === "map") renderMap(el, state);
-  else if (view === "typing") {
-    if (!currentChapterId) {
-      const first = getStage(1)[0];
-      currentChapterId = first ? first.id : null;
-    }
-    if (currentChapterId) renderTypingView(el, state, currentChapterId);
-    else el.innerHTML = `<div class="card"><h2>词库为空</h2></div>`;
-  }
-  else if (view === "grammar") renderGrammar(el, state);
+  else if (view === "wordbank") renderWordbank(el, state, arg);
+  else if (view === "roots") renderRoots(el, state, arg);
+  else if (view === "grammar") renderGrammar(el, state, arg);
+  else if (view === "videos") renderVideos(el, state);
+  else if (view === "review") renderReview(el, state);
   else if (view === "stats") renderStats(el, state);
   else if (view === "settings") renderSettings(el, state);
-  else if (view === "quiz") {
-    if (stage) renderQuiz(el, state, stage);
-    else renderMap(el, state);
-  }
 }
 
 window.addEventListener("eq:navigate", (e) => {
-  const d = (e as CustomEvent).detail as { view: string; chapterId?: string; stage?: StageId };
-  navigate(d.view, d.chapterId ?? null, d.stage ?? null);
+  const d = (e as CustomEvent).detail as { view: string; arg?: string };
+  navigate(d.view, d.arg);
 });
 
 document.getElementById("logo")!.addEventListener("click", () => navigate("home"));
 
 function persist(): void { save(state); }
-bindTyping(state, persist, refreshTopbar);
 bindGrammar(state, persist);
-bindQuiz(state, persist);
-attachTypingKeys();
 applyTheme(state.settings.theme);
 renderNav();
 refreshTopbar();

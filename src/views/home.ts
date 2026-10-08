@@ -59,15 +59,16 @@ export function renderHome(root: HTMLElement, state: AppState): void {
   tasks.className = "card";
   tasks.innerHTML = `<h2>🎯 今日任务</h2><div class="muted">完成任意一项即自动打卡</div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
-      <button class="btn" data-go="typing" style="border-color:#46A302;color:var(--green)">⌨️ 背 ${state.profile.dailyGoal.words} 个词</button>
+      <button class="btn" data-go="wordbank" style="border-color:#46A302;color:var(--green)">📚 学 ${state.profile.dailyGoal.words} 个词</button>
+      <button class="btn" data-go="roots" style="border-color:#A568CC;color:var(--purple)">🌱 逛词根家族</button>
       <button class="btn" data-go="grammar" style="border-color:#1899D6;color:var(--blue)">📖 学 ${state.profile.dailyGoal.grammarUnits} 个语法单元</button>
-      <button class="btn" data-go="map" style="border-color:#A568CC;color:var(--purple)">🗺️ 继续闯关</button>
+      <button class="btn" data-go="videos" style="border-color:#D33131;color:var(--red)">🎬 看视频课</button>
     </div>`;
   root.appendChild(tasks);
   tasks.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () =>
     window.dispatchEvent(new CustomEvent("eq:navigate", { detail: { view: b.getAttribute("data-go") } }))));
 
   hero.querySelector("#checkinBtn")!.addEventListener("click", () => {
-    toast(state.profile.goalsMetToday ? "今日目标已完成！" : "完成每日目标后自动打卡：背词 " + state.profile.dailyGoal.words + " 个 或 语法 " + state.profile.dailyGoal.grammarUnits + " 单元");
+    toast(state.profile.goalsMetToday ? "今日目标已完成！" : "完成每日目标后自动打卡：学词 " + state.profile.dailyGoal.words + " 个 或 语法 " + state.profile.dailyGoal.grammarUnits + " 单元");
   });
 }
