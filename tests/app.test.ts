@@ -105,6 +105,20 @@ describe("app shell 集成（v2 八板块）", () => {
     expect(keys.some(k => (k ?? "").includes("port"))).toBe(true);
   });
 
+  it("视频课：主题筛选 + 可添加自定义链接", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="videos"]') as HTMLElement).click();
+    expect(document.querySelector("#view-videos")!.textContent).toContain("语法视频课");
+    const topics = [...document.querySelectorAll("#view-videos [data-topic]")].map(b => b.textContent);
+    expect(topics).toContain("英语思维");
+    // 添加自定义视频 → 卡片出现且带移除按钮
+    const input = document.querySelector("#videoUrl") as HTMLInputElement;
+    input.value = "https://youtu.be/is7vn5URVcc";
+    (document.querySelector("#addVideo") as HTMLElement).click();
+    expect(document.querySelector("#view-videos")!.textContent).toContain("我的视频");
+    expect(document.querySelectorAll('#view-videos [data-del="1"]').length).toBe(1);
+  });
+
   it("数据中心：概览/热力图/成就墙/错题本", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="stats"]') as HTMLElement).click();
