@@ -18,6 +18,21 @@ export interface Chapter {
 
 export interface FsrsCard { due: string; stability: number; difficulty: number; state: number; }
 
+/** 词根家族里的一个同族词 */
+export interface RootWordRef { word: string; phonetic: string; meaning: string[]; }
+
+/** 词根/前缀/后缀家族（来自 ECDICT wordroot，MIT） */
+export interface RootFamily {
+  key: string;
+  name: string;
+  aliases: string[];
+  type: "root" | "prefix" | "suffix";
+  meaning: string;
+  meaningZh: string;
+  origin: string;
+  words: RootWordRef[];
+}
+
 export interface WordStats {
   correct: number;
   wrong: number;

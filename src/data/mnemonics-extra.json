@@ -1,0 +1,20 @@
+{
+  "juice": { "note": "联想：orange（橙子）挤出来的 juice 就是「果汁」，和水果绑定记" },
+  "breakfast": { "formula": "break + fast", "note": "break（打破）+ fast（禁食）→ 打破一夜的禁食 = 早餐" },
+  "holiday": { "formula": "holy + day", "note": "holy（神圣的）+ day（日子）→ 宗教节日 → 假日" },
+  "window": { "note": "联想：wind（风）+ 古北欧语 vindauga（风眼）→ 让风进来的口 = 窗户" },
+  "family": { "note": "联想：father and mother, I love you 的首字母 FAMILY，家庭" },
+  "restaurant": { "note": "联想：rest（休息）+ aurant → 让你坐下歇脚吃饭的地方 = 餐厅" },
+  "umbrella": { "note": "联想：umbra 是拉丁语「阴影」→ 给你一片阴影的东西 = 伞" },
+  "hospital": { "note": "联想：host（客人）+ pit（坑）→ hospitality 好客 → 招待病人的地方 = 医院" },
+  "sandwich": { "note": "来源：三明治伯爵 Sandwich 边打牌边吃的食物 → 三明治" },
+  "chocolate": { "note": "联想：cho-co-late 三段音节，可可豆做的甜食 = 巧克力" },
+  "library": { "note": "联想：liber 拉丁语「书」→ 放书的地方 = 图书馆（注意不是书店 bookstore）" },
+  "weather": { "note": "联想：whether 与 weather 同音，天气好不好是个「是否」问题" },
+  "money": { "note": "联想：moneta 罗马造币厂 → 钱" },
+  "travel": { "note": "联想：travail 古法语「辛劳」→ 古时旅行很辛苦 = 旅行" },
+  "computer": { "formula": "compute + -er", "note": "compute（计算）+ -er（做…的东西）→ 会计算的机器 = 电脑" },
+  "bicycle": { "formula": "bi- + cycle", "note": "bi-（二）+ cycle（轮）→ 两个轮子的车 = 自行车" },
+  "telephone": { "formula": "tele- + phone", "note": "tele-（远）+ phone（声音）→ 把声音传到远处 = 电话" },
+  "television": { "formula": "tele- + vision", "note": "tele-（远）+ vision（看）→ 看到远处画面 = 电视" }
+}

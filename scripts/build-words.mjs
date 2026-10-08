@@ -11,9 +11,25 @@ if (!existsSync(CSV)) {
   process.exit(1);
 }
 
-// 阶段 -> ECDICT tag 列表（或 oxford 列）
-const TAGS = { 1: ["zk"], 2: ["gk"], 3: ["cet4"], 4: ["ielts", "toefl"] };
-const CHAPTER_SIZE = { 1: 40, 2: 100, 3: 100, 4: 100 };
+// 阶段 -> ECDICT tag 列表（v2：日常词包单独维护，此脚本产出 初中/高中/四级）
+const TAGS = { 1: ["zk"], 2: ["gk"], 3: ["cet4"] };
+const CHAPTER_SIZE = { 1: 40, 2: 100, 3: 100 };
+
+// 功能词停用表：冠词/代词/介词/连词/助动词/情态动词 —— 属于语法，不作为背单词目标
+const FUNCTION_WORDS = new Set(`
+a an the this that these those some any each every both all no none other another such
+i you he she it we they me him her us them my your his its our their mine yours hers ours theirs
+myself yourself himself herself itself ourselves themselves who whom whose which what whoever whatever
+something anything nothing everything someone anyone everyone nobody somebody anybody everybody one ones
+in on at by for with about against between among through during before after above below under over
+up down out off into onto from to of as than like near behind beside beyond within without across along
+around upon toward towards until till since past per via despite except besides throughout underneath
+and or but nor so yet because although though if unless while whereas whether when where once whenever
+wherever however therefore moreover nevertheless otherwise hence thus
+be am is are was were been being have has had having do does did done doing
+will would shall should can could may might must ought need dare
+not no yes there here
+`.trim().split(/\s+/));
 
 function parseCsvLine(l) {
   const r = [];
@@ -74,10 +90,15 @@ for (const [stageStr, tags] of Object.entries(TAGS)) {
   const seen = new Set();
   const uniq = [];
   for (const w of pool) {
+    if (FUNCTION_WORDS.has(w.word)) continue;      // 剔除纯语法功能词
     if (!seen.has(w.word)) { seen.add(w.word); uniq.push(w); }
   }
-  // 词频降序（常用先学），无词频沉底
-  uniq.sort((a, b) => (b.frq - a.frq) || a.word.localeCompare(b.word));
+  // 按词频「排名」升序（frq=1 最常用先学），无排名(0)沉底
+  uniq.sort((a, b) => {
+    const ra = a.frq === 0 ? Number.MAX_SAFE_INTEGER : a.frq;
+    const rb = b.frq === 0 ? Number.MAX_SAFE_INTEGER : b.frq;
+    return (ra - rb) || a.word.localeCompare(b.word);
+  });
   const chapters = [];
   let no = 0;
   for (let i = 0; i < uniq.length; i += CHAPTER_SIZE[stage]) {
