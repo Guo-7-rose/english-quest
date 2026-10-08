@@ -4,7 +4,7 @@ import { loadAll, save } from "./store/storage";
 import type { AppState } from "./types";
 import { renderHome } from "./views/home";
 import { renderWordbank } from "./views/wordbank";
-import { renderRoots } from "./views/roots";
+import { renderRoots, bindRoots } from "./views/roots";
 import { renderGrammar, bindGrammar } from "./views/grammar";
 import { renderVideos } from "./views/videos";
 import { renderReview } from "./views/review";
@@ -78,6 +78,7 @@ document.getElementById("logo")!.addEventListener("click", () => navigate("home"
 
 function persist(): void { save(state); }
 bindGrammar(state, persist);
+bindRoots(state, persist);
 applyTheme(state.settings.theme);
 renderNav();
 refreshTopbar();

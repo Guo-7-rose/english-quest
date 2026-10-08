@@ -39,6 +39,31 @@ describe("app shell 集成（v2 八板块）", () => {
     expect(document.querySelectorAll("#view-grammar .card").length).toBeGreaterThan(2);
   });
 
+  it("词根词缀库：家族网格 → 家族页 → 同族词", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="roots"]') as HTMLElement).click();
+    const cards = document.querySelectorAll("#rootsGrid [data-key]");
+    expect(cards.length).toBeGreaterThan(50);
+    // 进入第一个家族
+    (cards[0] as HTMLElement).click();
+    expect(document.querySelector("#famWords")).not.toBeNull();
+    expect(document.querySelectorAll("#famWords > div").length).toBeGreaterThan(0);
+    // 点开一个词看三层拆解与标记按钮
+    const row = document.querySelector("#famWords > div") as HTMLElement;
+    row.click();
+    expect(row.textContent).toContain("记住了");
+  });
+
+  it("词根词缀库：搜索可按词根名或单词过滤", async () => {
+    await import("../src/main");
+    (document.querySelector('[data-view="roots"]') as HTMLElement).click();
+    const input = document.querySelector("#rootsSearch") as HTMLInputElement;
+    input.value = "port";
+    input.dispatchEvent(new Event("input"));
+    const keys = [...document.querySelectorAll("#rootsGrid [data-key]")].map(e => e.getAttribute("data-key"));
+    expect(keys.some(k => (k ?? "").includes("port"))).toBe(true);
+  });
+
   it("数据中心：概览/热力图/成就墙/错题本", async () => {
     await import("../src/main");
     (document.querySelector('[data-view="stats"]') as HTMLElement).click();
