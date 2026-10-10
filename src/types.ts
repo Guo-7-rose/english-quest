@@ -39,6 +39,7 @@ export interface WordStats {
   lastSeen: number;      // epoch ms
   fsrs: FsrsCard | null;
   inReview: boolean;     // 是否在复习队列
+  mastered?: boolean;    // 标记「熟知」→ 永久移出复习队列
 }
 
 export interface ChapterProgress {

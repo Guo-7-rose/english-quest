@@ -8,6 +8,7 @@ import { renderRoots, bindRoots } from "./views/roots";
 import { renderGrammar, bindGrammar } from "./views/grammar";
 import { renderVideos } from "./views/videos";
 import { renderReview, bindReview } from "./views/review";
+import { renderWordCard, bindWordCard } from "./views/wordCard";
 import { renderStats } from "./views/stats";
 import { renderSettings, applyTheme } from "./views/settings";
 import { initAudio } from "./fx/audio";
@@ -30,6 +31,7 @@ app.innerHTML = `
     <div class="sheet-inner">
       <div class="sheet-title">更多板块</div>
       <button class="btn" data-sheet-view="videos">🎬 视频课</button>
+      <button class="btn" data-sheet-view="review">🔁 复习</button>
       <button class="btn" data-sheet-view="stats">📊 数据</button>
       <button class="btn" data-sheet-view="settings">⚙️ 设置</button>
       <button class="btn btn--ghost" id="sheetClose">关闭</button>
@@ -38,6 +40,7 @@ app.innerHTML = `
 
 const NAVS: Array<[string, string]> = [
   ["home", "🏠 学习面板"],
+  ["wordcard", "✏️ 背单词"],
   ["wordbank", "📚 单词板块"],
   ["roots", "🌱 词根词缀库"],
   ["grammar", "📖 语法训练"],
@@ -50,12 +53,12 @@ const NAVS: Array<[string, string]> = [
 /** 手机底部标签栏：5 个主项 + 更多 */
 const TABS: Array<[string, string, string]> = [
   ["home", "🏠", "面板"],
+  ["wordcard", "✏️", "背单词"],
   ["wordbank", "📚", "单词"],
   ["roots", "🌱", "词根"],
   ["grammar", "📖", "语法"],
-  ["review", "🔁", "复习"],
 ];
-const SHEET_VIEWS = ["videos", "stats", "settings"];
+const SHEET_VIEWS = ["videos", "review", "stats", "settings"];
 
 function renderTabbar(): void {
   const bar = document.getElementById("tabbar")!;
@@ -101,6 +104,7 @@ function navigate(view: string, arg?: string): void {
   root.innerHTML = `<section id="view-${view}" style="display:block"></section>`;
   const el = document.getElementById(`view-${view}`)!;
   if (view === "home") renderHome(el, state);
+  else if (view === "wordcard") renderWordCard(el, state, arg);
   else if (view === "wordbank") renderWordbank(el, state, arg);
   else if (view === "roots") renderRoots(el, state, arg);
   else if (view === "grammar") renderGrammar(el, state, arg);
@@ -129,6 +133,7 @@ bindGrammar(state, persist);
 bindRoots(state, persist);
 bindWordbank(state, persist);
 bindReview(state, persist);
+bindWordCard(state, persist);
 applyTheme(state.settings.theme);
 renderNav();
 renderTabbar();

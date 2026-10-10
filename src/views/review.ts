@@ -31,14 +31,17 @@ export function renderReview(root: HTMLElement, state: AppState): void {
   const head = document.createElement("div");
   head.className = "card";
   head.innerHTML = `<h2>🔁 复习</h2>
-    <div class="muted">用选择题复习，不用打字。错题会按 FSRS 间隔（1 → 3 → 7 → 15 天…）自动回来找你。</div>
+    <div class="muted">默认用<b>卡片自评</b>（认识/模糊/忘记/熟知），和背新词同一套节奏；也可切换成选择题自测。</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
       <div class="pill fire">到期复习 <span class="val">${due.length}</span> 词</div>
       <div class="pill">已掌握 <span class="val">${learned.length}</span> 词</div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-      <button class="btn btn--green" id="startDue" ${due.length === 0 ? "disabled" : ""}>🚀 开始复习这 ${due.length} 词</button>
-      <button class="btn btn--blue" id="startDaily">🎲 随机自测（日常词汇 10 题）</button>
+      <button class="btn btn--green" id="startCardDue" ${due.length === 0 ? "disabled" : ""}>🃏 卡片复习这 ${due.length} 词（推荐）</button>
+      <button class="btn btn--blue" id="startDue" ${due.length === 0 ? "disabled" : ""}>📝 选择题自测</button>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn" id="startDaily">🎲 随机自测（日常词汇 10 题）</button>
       <button class="btn" id="startLearned" ${learned.length < 4 ? "disabled" : ""}>📚 自测已学过的词</button>
     </div>`;
   root.appendChild(head);
@@ -47,6 +50,8 @@ export function renderReview(root: HTMLElement, state: AppState): void {
   stage.id = "reviewStage";
   root.appendChild(stage);
 
+  head.querySelector("#startCardDue")!.addEventListener("click", () =>
+    window.dispatchEvent(new CustomEvent("eq:navigate", { detail: { view: "wordcard", arg: "review" } })));
   head.querySelector("#startDue")!.addEventListener("click", () => startRound(stage, due, state));
   head.querySelector("#startDaily")!.addEventListener("click", () => {
     const words = bankWords("daily");

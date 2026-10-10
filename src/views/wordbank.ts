@@ -113,9 +113,11 @@ function renderTheme(root: HTMLElement, state: AppState, themeId: string): void 
   const head = document.createElement("div");
   head.className = "card";
   head.innerHTML = `<button class="btn" id="back">← 返回日常词汇</button>
-    <h2 style="margin-top:10px">${t.icon} ${t.title} <span class="muted" style="font-size:14px">${t.words.length} 词</span></h2>`;
+    <h2 style="margin-top:10px">${t.icon} ${t.title} <span class="muted" style="font-size:14px">${t.words.length} 词</span></h2>
+    <button class="btn btn--green" id="startCard" style="margin-top:10px">🚀 开始背这一组（卡片模式）</button>`;
   root.appendChild(head);
   head.querySelector("#back")!.addEventListener("click", () => nav("wordbank", "daily"));
+  head.querySelector("#startCard")!.addEventListener("click", () => nav("wordcard", "daily:" + themeId));
   const list = document.createElement("div");
   list.className = "card";
   list.id = "wordList";
@@ -133,9 +135,11 @@ function renderWordList(root: HTMLElement, state: AppState, bank: BankId): void 
   head.className = "card";
   head.innerHTML = `<button class="btn" id="back">← 返回板块</button>
     <h2 style="margin-top:10px">${meta.icon} ${meta.title} <span class="muted" style="font-size:14px">${words.length} 词 · 每页 ${PAGE_SIZE}</span></h2>
-    <div class="muted">${meta.desc}</div>`;
+    <div class="muted">${meta.desc}</div>
+    <button class="btn btn--green" id="startCard" style="margin-top:10px">🚀 开始背这一组（卡片模式）</button>`;
   root.appendChild(head);
   head.querySelector("#back")!.addEventListener("click", () => nav("wordbank"));
+  head.querySelector("#startCard")!.addEventListener("click", () => nav("wordcard", bank));
 
   const list = document.createElement("div");
   list.className = "card";
