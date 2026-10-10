@@ -15,7 +15,9 @@
     "gen:roots": "node scripts/build-roots.mjs",
     "gen:daily": "node scripts/build-daily.mjs",
     "gen:worden": "node scripts/build-word-en.mjs",
-    "deploy": "npm run build && node scripts/prepare-upload.mjs && npx --yes wrangler pages deploy eq-upload --project-name=yingchuangdao --branch=main --commit-dirty=true"
+    "deploy": "npm run build && node scripts/prepare-upload.mjs && npx --yes wrangler pages deploy eq-upload --project-name=yingchuangdao --branch=main --commit-dirty=true",
+    "deploy:netlify": "npm run build && node scripts/prepare-upload.mjs && npx --yes netlify-cli deploy --prod --dir eq-upload --site f4d81cd6-83fd-4b36-9bab-6ddba801fabc",
+    "deploy:both": "npm run deploy && npm run deploy:netlify"
   },
   "dependencies": {
     "ts-fsrs": "^5.4.2"

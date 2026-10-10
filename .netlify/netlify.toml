@@ -1,0 +1,73 @@
+plugins = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "C:\\Users\\rose\\Documents\\deepseek-harness\\default-workspace\\dist"
+publishOrigin = "ui"
+commandOrigin = "ui"
+command = "npm run build"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[headers]]
+for = "/"
+
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+for = "/index.html"
+
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+for = "/sw.js"
+
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+for = "/data/*"
+
+[headers.values]
+Cache-Control = "public, max-age=604800, immutable"
+
+[[headers]]
+for = "/icons/*"
+
+[headers.values]
+Cache-Control = "public, max-age=604800"
+
+[[headers]]
+for = "/manifest.webmanifest"
+
+[headers.values]
+Cache-Control = "public, max-age=3600"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
