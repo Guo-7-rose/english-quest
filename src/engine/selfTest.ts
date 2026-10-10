@@ -41,29 +41,38 @@ function assemble(correct: string, wrongs: string[]): { options: string[]; answe
   return { options, answer: options.indexOf(correct) };
 }
 
-const GLOSSES: string[] = (() => {
-  const set = new Set<string>();
-  for (const f of allFamilies()) {
-    const g = f.meaningZh || f.meaning;
-    if (g) set.add(g);
+// 干扰项池：惰性计算（数据是按需加载的，模块加载时可能还没就绪）
+let glossCache: string[] | null = null;
+function glosses(): string[] {
+  if (!glossCache) {
+    const set = new Set<string>();
+    for (const f of allFamilies()) {
+      const g = f.meaningZh || f.meaning;
+      if (g) set.add(g);
+    }
+    glossCache = [...set];
   }
-  return [...set];
-})();
+  return glossCache;
+}
 
-const FORMULAS: string[] = (() => {
-  const set = new Set<string>();
-  for (const w of allBankWordIds()) {
-    const f = buildMnemonic(w).formula;
-    if (f) set.add(f);
+let formulaCache: string[] | null = null;
+function formulas(): string[] {
+  if (!formulaCache) {
+    const set = new Set<string>();
+    for (const w of allBankWordIds()) {
+      const f = buildMnemonic(w).formula;
+      if (f) set.add(f);
+    }
+    formulaCache = [...set];
   }
-  return [...set];
-})();
+  return formulaCache;
+}
 
 export function buildQuestions(words: string[], kinds: QuestionKind[], n: number): SelfTestQuestion[] {
   const known = words.filter(w => wordInfo(w));
   const globalPool = allBankWordIds().slice(0, POOL_LIMIT);
   const meaningPool = globalPool.map(w => wordInfo(w)?.meaning[0] ?? "").filter(Boolean);
-  const formulaPool = FORMULAS;
+  const formulaPool = formulas();
   const out: SelfTestQuestion[] = [];
 
   let ki = 0;
@@ -102,7 +111,7 @@ export function buildQuestions(words: string[], kinds: QuestionKind[], n: number
         if (fams.length === 0) continue;
         const fam = fams[0]!;
         const correct = fam.meaningZh || fam.meaning;
-        const wrongs = distractors(correct, GLOSSES, 3);
+        const wrongs = distractors(correct, glosses(), 3);
         if (wrongs.length < 3) continue;
         const { options, answer } = assemble(correct, wrongs);
         built = { kind, prompt: `词根/词缀「${fam.name}」的含义是？`, options, answer, explain: `${fam.name}${fam.origin ? "（" + fam.origin + "）" : ""}：${correct}`, wordId: word };

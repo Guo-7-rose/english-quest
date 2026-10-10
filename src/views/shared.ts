@@ -1,5 +1,36 @@
 import type { MnemonicLayer } from "../engine/mnemonic";
 
+export function loadingHTML(text = "加载中…"): string {
+  return `<div class="card" style="text-align:center;padding:32px">
+    <div style="font-size:28px">⏳</div>
+    <div class="muted" style="margin-top:8px">${text}</div>
+  </div>`;
+}
+
+/**
+ * 数据按需加载的统一入口：先显示加载态，数据就绪后重绘，失败给出可读提示。
+ * 让应用外壳保持很小（秒开），大块数据只在需要时拉取。
+ */
+export async function withData(
+  root: HTMLElement,
+  ensure: () => Promise<void>,
+  draw: () => void,
+  loadingText = "加载中…",
+  ready?: () => boolean,
+): Promise<void> {
+  if (ready?.()) { draw(); return; }   // 数据已就绪：同步渲染，避免闪烁与竞态
+  root.innerHTML = loadingHTML(loadingText);
+  try {
+    await ensure();
+  } catch {
+    root.innerHTML = `<div class="card"><h2>😕 数据加载失败</h2>
+      <div class="muted">可能是网络问题。检查网络后刷新重试；已加载过的内容离线也能用。</div></div>`;
+    return;
+  }
+  root.innerHTML = "";
+  draw();
+}
+
 export const LAYER_LABEL: Record<MnemonicLayer, string> = {
   etymology: "词源",
   construction: "构词",

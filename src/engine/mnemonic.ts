@@ -1,8 +1,26 @@
-import { familyOfWord, hasRootFamily } from "../data/roots";
+import { familyOfWord, hasRootFamily, ensureRoots } from "../data/roots";
 import type { RootFamily } from "../types";
-import commonStems from "../data/common-stems.json";
 import extras from "../data/mnemonics-extra.json";
-import wordEn from "../data/word-en.json";
+import { load } from "../data/store";
+
+let STEMS = new Set<string>();
+let WORD_EN: Record<string, { def: string; syl: string }> = {};
+let assetsReady = false;
+
+/** 按需加载助记资产：常用词干表 + 英文释义 + 词源家族 */
+export async function ensureMnemonicAssets(): Promise<void> {
+  if (assetsReady) return;
+  const [stems, wen] = await Promise.all([
+    load<string[]>("commonStems"),
+    load<Record<string, { def: string; syl: string }>>("wordEn"),
+  ]);
+  STEMS = new Set(stems);
+  WORD_EN = wen;
+  await ensureRoots();
+  assetsReady = true;
+}
+
+export function mnemonicAssetsReady(): boolean { return assetsReady; }
 
 export type MnemonicLayer = "etymology" | "construction" | "mnemonic";
 
@@ -32,9 +50,7 @@ const PRODUCTIVE_SUFFIXES = [
   "ic", "ty", "en", "ed",
 ].sort((a, b) => b.length - a.length);
 
-const STEMS = new Set(commonStems as string[]);
 const EXTRAS = extras as Record<string, { formula?: string; note: string }>;
-const WORD_EN = wordEn as Record<string, { def: string; syl: string }>;
 
 const glossOf = (f: RootFamily): string => f.meaningZh || f.meaning;
 

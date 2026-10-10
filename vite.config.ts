@@ -1,5 +1,35 @@
 import { defineConfig, type Plugin } from "vitest/config";
 import { viteSingleFile } from "vite-plugin-singlefile";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+/** 大块数据不打包进 JS，而是作为独立文件输出到 dist/data/，由前端按需 fetch */
+const DATA_FILES = [
+  "roots.json",
+  "common-stems.json",
+  "word-en.json",
+  "words-stage1.json",
+  "words-stage2.json",
+  "words-stage3.json",
+  "wordbank-daily.json",
+];
+
+function dataAssetsPlugin(): Plugin {
+  return {
+    name: "emit-data-assets",
+    apply: "build",
+    generateBundle() {
+      const dir = fileURLToPath(new URL("./src/data/", import.meta.url));
+      for (const f of DATA_FILES) {
+        this.emitFile({
+          type: "asset",
+          fileName: `data/${f}`,
+          source: readFileSync(dir + f, "utf8"),
+        });
+      }
+    },
+  };
+}
 
 /** 构建时生成带版本号的 Service Worker（版本变化即换缓存） */
 function serviceWorkerPlugin(): Plugin {
@@ -20,7 +50,8 @@ function serviceWorkerPlugin(): Plugin {
         "./icons/favicon-32.png",
       ];
       const sw = `/* 英语闯关岛 Service Worker · 版本 ${version} */
-const CACHE = "english-quest-${version}";
+const CACHE = "english-quest-shell-${version}";   // 外壳：每次部署换新
+const DATA_CACHE = "english-quest-data";          // 词库数据：跨版本保留，避免重复下载
 const ASSETS = ${JSON.stringify(assets, null, 2)};
 
 self.addEventListener("install", (event) => {
@@ -35,7 +66,9 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(
+        keys.filter((k) => k.startsWith("english-quest-shell-") && k !== CACHE).map((k) => caches.delete(k))
+      ))
       .then(() => self.clients.claim())
   );
 });
@@ -46,6 +79,19 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   // 只处理同源请求（YouTube 等外链视频不拦截，始终走网络）
   if (url.origin !== self.location.origin) return;
+
+  // 词库数据：放进独立缓存，跨版本保留（手机上省流量）
+  if (url.pathname.includes("/data/")) {
+    event.respondWith(
+      caches.open(DATA_CACHE).then((cache) =>
+        cache.match(req).then((hit) => hit || fetch(req).then((resp) => {
+          if (resp && resp.status === 200) cache.put(req, resp.clone());
+          return resp;
+        }))
+      )
+    );
+    return;
+  }
 
   // 导航请求：优先离线外壳，保证断网也能打开
   if (req.mode === "navigate") {
@@ -76,7 +122,7 @@ self.addEventListener("fetch", (event) => {
 }
 
 export default defineConfig({
-  plugins: [viteSingleFile(), serviceWorkerPlugin()],
+  plugins: [viteSingleFile(), serviceWorkerPlugin(), dataAssetsPlugin()],
   base: "./",
   build: {
     target: "es2022",
@@ -84,5 +130,6 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["tests/**/*.test.ts"],
+    setupFiles: ["./tests/setup.ts"],
   },
 });

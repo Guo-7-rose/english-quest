@@ -1,5 +1,7 @@
 import type { AppState, RootFamily, RootWordRef } from "../types";
-import { allFamilies, familiesByType, getFamily, familyBankWords } from "../data/roots";
+import { allFamilies, familiesByType, getFamily, familyBankWords, ensureRoots, rootsReady } from "../data/roots";
+import { getStage } from "../data/words";
+import { withData } from "./shared";
 import { buildMnemonic, type MnemonicLayer } from "../engine/mnemonic";
 import { markRemembered, markNeedReview } from "../engine/reviewQueue";
 import { sCorrect } from "../fx/audio";
@@ -24,9 +26,10 @@ function layerBadge(layer: MnemonicLayer): string {
 
 export function renderRoots(root: HTMLElement, state: AppState, familyKey?: string): void {
   rootsState = state;
-  root.innerHTML = "";
-  if (familyKey) renderFamily(root, state, familyKey);
-  else renderOverview(root, state);
+  void withData(root, ensureRoots, () => {
+    if (familyKey) renderFamily(root, state, familyKey);
+    else renderOverview(root, state);
+  }, "正在加载词源家族库…", rootsReady);
 }
 
 function renderOverview(root: HTMLElement, state: AppState): void {
@@ -102,8 +105,9 @@ function renderFamily(root: HTMLElement, state: AppState, key: string): void {
       window.dispatchEvent(new CustomEvent("eq:navigate", { detail: { view: "roots" } })));
     return;
   }
-  const bankWords = familyBankWords(f);
-  const bankSet = new Set(bankWords.map(w => w.word));
+  const bankSet = new Set<string>();
+  for (const st of [1, 2, 3] as const) for (const ch of getStage(st)) for (const w of ch.words) bankSet.add(w.word);
+  const bankWords = familyBankWords(f, bankSet);
 
   const head = document.createElement("div");
   head.className = "card";

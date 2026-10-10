@@ -88,13 +88,45 @@ npm.cmd run build
 ## 🧪 开发与测试
 
 ```bash
-npm.cmd test        # 87 个测试
+npm.cmd test        # 111 个测试（单元 + jsdom 端到端集成）
 npm.cmd run dev     # 开发服务器
-npm.cmd run build   # 产出单文件 dist/index.html
+npm.cmd run build   # 产出 dist/（应用外壳 + 数据文件 + PWA 资产）
 npx.cmd tsc --noEmit
 ```
 
-## 🚢 更新线上版本（部署）
+### 性能：外壳秒开 + 数据按需加载
+
+构建产物不再是「一个大 HTML」，而是**小外壳 + 数据分块**：
+
+| 产物 | 大小 | 何时加载 |
+|---|---|---|
+| `index.html`（界面 + 逻辑 + 语法/视频数据） | **约 170KB**（gzip 约 55KB） | 首屏立即 |
+| `data/wordbank-daily.json` | 117KB | 进「背单词 / 单词板块」 |
+| `data/roots.json` | 997KB（gzip 311KB） | 需要词源拆解时 |
+| `data/common-stems.json` + `data/word-en.json` | 47KB + 497KB | 助记资产 |
+| `data/words-stage1~3.json` | 632 / 644 / 699KB | 进对应考试词表 |
+
+改造前是 3.03MB 单文件（手机 4G 首屏 5-15 秒），现在首屏约 170KB（**1-2 秒**）。
+词库数据存在**独立缓存**里跨版本保留，更新网站不会让用户重新下载词表。
+
+## 🚢 部署（两个平台任选）
+
+站点是纯静态的，任何静态托管都能用。`dist/` 直接上传即可。
+
+**A. Cloudflare Pages（推荐，国内访问较稳）**
+
+1. 打开 <https://dash.cloudflare.com/> → 注册/登录（免费）
+2. 左侧 **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+3. 授权 GitHub，选择仓库 `Guo-7-rose/english-quest`
+4. 构建配置：
+   - Framework preset：**None**
+   - Build command：`npm run build`
+   - Build output directory：`dist`
+   - 环境变量（可选）：`NODE_VERSION` = `22`
+5. Save and Deploy → 得到 `https://<项目名>.pages.dev`
+6. 以后 push 到 GitHub 会自动重新构建发布
+
+**B. GitHub Pages（当前使用，作为备用）**
 
 线上站点由 `gh-pages` 分支提供，内容就是 `dist/` 的构建产物。更新流程：
 

@@ -1,8 +1,8 @@
 import type { AppState } from "../types";
 import { heatmapDays, grantFreezeIfDue, useFreeze, daysSinceLastCheckin } from "../engine/streak";
 import { xpNeededForLevel } from "../engine/progress";
-import { allThemes } from "../data/wordbank";
-import { topFamilies } from "../data/roots";
+import { allThemes, ensureDaily } from "../data/wordbank";
+import { topFamilies, ensureRoots } from "../data/roots";
 import { getGrammarUnits } from "../data/grammar";
 import { toast } from "../fx/fx";
 
@@ -60,26 +60,30 @@ export function renderHome(root: HTMLElement, state: AppState): void {
 
   const rec = document.createElement("div");
   rec.className = "card";
-  {
+  rec.innerHTML = `<h2>🎲 今日推荐（随便挑一个开始）</h2><div class="muted">正在取推荐内容…</div>`;
+  root.appendChild(rec);
+  // 首页不阻塞：推荐内容等数据到了再填（外壳已秒开）
+  void Promise.all([ensureDaily(), ensureRoots()]).then(() => {
+    if (!document.body.contains(rec)) return;
     const themes = allThemes();
     const fams = topFamilies(40);
     const units = getGrammarUnits();
+    if (themes.length === 0) { rec.innerHTML = ""; return; }
     const t = themes[Math.floor(Math.random() * themes.length)]!;
     const f = fams[Math.floor(Math.random() * fams.length)]!;
     const u = units[Math.floor(Math.random() * units.length)]!;
     rec.innerHTML = `<h2>🎲 今日推荐（随便挑一个开始）</h2>
       <div class="muted">全部内容都解锁，想学哪个点哪个</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn btn--green" data-go="wordbank" data-arg="daily:${t.id}">${t.icon} ${t.title}（${t.words.length} 词）</button>
+        <button class="btn btn--green" data-go="wordcard" data-arg="daily:${t.id}">✏️ 背 ${t.icon}${t.title}（${t.words.length} 词）</button>
         <button class="btn btn--purple" data-go="roots" data-arg="${f.key}">🌱 词根 ${f.name} · ${f.meaningZh || f.meaning}</button>
         <button class="btn btn--blue" data-go="grammar" data-arg="${u.id}">📖 第 ${u.no} 单元 · ${u.title}</button>
       </div>`;
-    root.appendChild(rec);
     rec.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () =>
       window.dispatchEvent(new CustomEvent("eq:navigate", {
         detail: { view: b.getAttribute("data-go"), arg: b.getAttribute("data-arg") ?? undefined },
       }))));
-  }
+  }).catch(() => { rec.innerHTML = ""; });
 
   const tasks = document.createElement("div");
   tasks.className = "card";

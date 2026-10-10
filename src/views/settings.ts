@@ -82,6 +82,17 @@ export function renderSettings(root: HTMLElement, state: AppState): void {
       location.reload();
     }
   });
+
+  const privacy = document.createElement("div");
+  privacy.className = "card";
+  privacy.innerHTML = `<h2>🔒 隐私说明</h2>
+    <div class="muted" style="line-height:1.9">
+      · 本站<b>不收集、不上传</b>任何个人信息：学习进度、标记、设置全部只保存在<b>你这台设备</b>的浏览器里<br>
+      · 没有账号系统、没有统计埋点、没有广告<br>
+      · 清除浏览器数据或点上面的「重置全部数据」会清空进度（无法恢复）<br>
+      · 语法视频来自 YouTube，播放时相关网络请求由 YouTube 处理
+    </div>`;
+  root.appendChild(privacy);
 }
 
 export function applyTheme(id: string): void {

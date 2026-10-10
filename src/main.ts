@@ -12,6 +12,12 @@ import { renderWordCard, bindWordCard } from "./views/wordCard";
 import { renderStats } from "./views/stats";
 import { renderSettings, applyTheme } from "./views/settings";
 import { initAudio } from "./fx/audio";
+import { initInstallPrompt } from "./fx/install";
+import { ensureCore, preloadCore, coreLoaded } from "./data/ensure";
+import { loadingHTML } from "./views/shared";
+
+/** 需要核心数据（词源/词表/助记）的板块，进入前先确保数据就绪 */
+const DATA_VIEWS = new Set(["wordcard", "wordbank", "roots", "review", "stats"]);
 
 let state: AppState = loadAll();
 const app = document.getElementById("app")!;
@@ -103,6 +109,24 @@ function navigate(view: string, arg?: string): void {
   const root = document.getElementById("views")!;
   root.innerHTML = `<section id="view-${view}" style="display:block"></section>`;
   const el = document.getElementById(`view-${view}`)!;
+
+  // 数据门控：外壳与首页立即渲染（秒开），需要大块数据的板块先给加载态
+  if (DATA_VIEWS.has(view) && !coreLoaded()) {
+    el.innerHTML = loadingHTML("正在加载学习数据…（首次会稍慢，之后离线秒开）");
+    void ensureCore()
+      .then(() => { if (currentView === view) renderView(el, view, arg); })
+      .catch(() => {
+        el.innerHTML = `<div class="card"><h2>😕 数据加载失败</h2>
+          <div class="muted">检查网络后刷新重试；已加载过的内容离线也能用。</div></div>`;
+      });
+    window.scrollTo({ top: 0 });
+    return;
+  }
+  renderView(el, view, arg);
+  window.scrollTo({ top: 0 });
+}
+
+function renderView(el: HTMLElement, view: string, arg?: string): void {
   if (view === "home") renderHome(el, state);
   else if (view === "wordcard") renderWordCard(el, state, arg);
   else if (view === "wordbank") renderWordbank(el, state, arg);
@@ -112,7 +136,6 @@ function navigate(view: string, arg?: string): void {
   else if (view === "review") renderReview(el, state);
   else if (view === "stats") renderStats(el, state);
   else if (view === "settings") renderSettings(el, state);
-  window.scrollTo({ top: 0 });
 }
 
 window.addEventListener("eq:navigate", (e) => {
@@ -140,7 +163,13 @@ renderTabbar();
 refreshTopbar();
 navigate("home");
 
+// 首屏渲染完再在后台预取数据，用户点进板块时通常已经就绪
+window.setTimeout(preloadCore, 300);
+
 document.addEventListener("pointerdown", initAudio, { once: true });
+
+// 安装到主屏幕的引导（Android 原生安装事件 / iOS 图文指引 / 微信提示）
+initInstallPrompt();
 
 // PWA：仅在 http(s) 下注册 Service Worker（file:// 打开时静默跳过，功能不受影响）
 if (location.protocol === "http:" || location.protocol === "https:") {

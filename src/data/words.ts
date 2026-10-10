@@ -1,11 +1,32 @@
 import type { Chapter, StageId, Word } from "../types";
-import stage1 from "./words-stage1.json";
-import stage2 from "./words-stage2.json";
-import stage3 from "./words-stage3.json";
+import { load, type DataKey } from "./store";
 
 export interface WordFormQuestion { wordId: string; prompt: string; answer: string; kind: string; }
 
-const RAW: unknown[] = [stage1, stage2, stage3];
+const STAGE_KEY: Record<1 | 2 | 3, DataKey> = { 1: "words1", 2: "words2", 3: "words3" };
+
+const STAGES: Chapter[][] = [[], [], []];
+const WORD_INFO = new Map<string, Word>();
+const loadedStages = new Set<number>();
+
+/** 按需加载考试词表（初中 / 高中 / 四级，各约 0.5-0.7MB） */
+export async function ensureWords(stages: Array<1 | 2 | 3> = [1, 2, 3]): Promise<void> {
+  const need = stages.filter(s => !loadedStages.has(s));
+  await Promise.all(need.map(async (s) => {
+    const data = await load<{ stage: number; chapters: Chapter[] }>(STAGE_KEY[s]);
+    for (const ch of data.chapters) {
+      const withId: Chapter = { ...ch, id: `${ch.stage}-${ch.no}` };
+      STAGES[ch.stage - 1]!.push(withId);
+      for (const w of withId.words) if (!WORD_INFO.has(w.word)) WORD_INFO.set(w.word, w);
+    }
+    STAGES[s - 1]!.sort((a, b) => a.no - b.no);
+    loadedStages.add(s);
+  }));
+}
+
+export function wordsReady(stages: Array<1 | 2 | 3> = [1, 2, 3]): boolean {
+  return stages.every(s => loadedStages.has(s));
+}
 
 const KIND_KEYS: Array<[string, string, (w: Word, forms: string[]) => string]> = [
   ["s", "plural", (w) => `${w.word} 的复数形式是？`],
@@ -16,32 +37,13 @@ const KIND_KEYS: Array<[string, string, (w: Word, forms: string[]) => string]> =
   ["t", "superlative", (w) => `${w.word} 的最高级是？`],
 ];
 
-function buildStages(): Chapter[][] {
-  const stages: Chapter[][] = [[], [], [], []];
-  for (const entry of RAW) {
-    const d = entry as { stage: number; chapters: Chapter[] };
-    for (const ch of d.chapters) stages[ch.stage - 1]!.push({ ...ch, id: `${ch.stage}-${ch.no}` });
-  }
-  return stages;
-}
-
-export const ALL_STAGES: Chapter[][] = buildStages();
-
 export function getStage(stage: StageId): Chapter[] {
-  return ALL_STAGES[stage - 1] ?? [];
+  return STAGES[stage - 1] ?? [];
 }
 
 export function getChapter(id: string): Chapter | undefined {
-  for (const st of ALL_STAGES) for (const ch of st) if (ch.id === id) return ch;
+  for (const st of STAGES) for (const ch of st) if (ch.id === id) return ch;
   return undefined;
-}
-
-// 全词库索引：word -> 词条（词表行渲染与自测出题用）
-const WORD_INFO = new Map<string, Word>();
-for (const st of ALL_STAGES) {
-  for (const ch of st) {
-    for (const w of ch.words) if (!WORD_INFO.has(w.word)) WORD_INFO.set(w.word, w);
-  }
 }
 
 export function wordInfo(word: string): Word | undefined {

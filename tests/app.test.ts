@@ -1,10 +1,14 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("app shell 集成（v2 八板块）", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.resetModules();
     document.body.innerHTML = `<div id="app"></div>`;
     localStorage.clear();
+    // resetModules 后必须重新拿到新的模块实例再注入数据并等核心数据就绪，
+    // 这样 main.ts 里的导航才能保持同步渲染（与线上「数据已加载」状态一致）
+    const { prepareCore } = await import("./helpers/data");
+    await prepareCore();
   });
 
   it("启动后渲染 9 个桌面导航与学习面板", async () => {
