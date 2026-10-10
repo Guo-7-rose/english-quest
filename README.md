@@ -8,7 +8,11 @@
 
 **主地址（Cloudflare Pages，国内访问较稳）**：<https://yingchuangdao.pages.dev/>
 
+**镜像地址（Netlify）**：<https://yingchuangdao.netlify.app/>
+
 **备用地址（GitHub Pages）**：<https://guo-7-rose.github.io/english-quest/>
+
+> 三个地址内容相同。分享时**统一用 Cloudflare 主地址**（分享卡片的图片与 canonical 都指向它）。
 
 安装步骤：
 
@@ -124,13 +128,16 @@ npx.cmd tsc --noEmit
 **以后更新只要一条命令**（构建 + 同步 + 上传，全程自动）：
 
 ```powershell
-npm.cmd run deploy
+npm.cmd run deploy            # 只更新 Cloudflare 主站
+npm.cmd run deploy:netlify    # 只更新 Netlify 镜像
+npm.cmd run deploy:both       # 两个一起更新（推荐）
 ```
 
-首次使用需要授权（只需一次）：`npx wrangler login`
+首次使用需要授权（各一次）：`npx wrangler login` / `npx netlify-cli login`
 
-> 为什么不用控制台直传？实测控制台「上传资产 → 部署」会卡住，用 wrangler 命令行 17 秒传完 20 个文件，稳定可重复。
-> 注意 `english-quest.pages.dev` 已被其他用户占用，所以项目名用了 `yingchuangdao`。
+> 实测控制台直传会卡住，用 CLI 稳定可重复（Cloudflare 17 秒传 20 个文件）。
+> 项目名为什么是 `yingchuangdao`：`english-quest.pages.dev` 与 `english-quest.netlify.app` 已被其他用户占用。
+> Netlify 站点原本配置了云端构建命令（`npm run build`）导致部署卡死，已通过 API 清空，改为纯静态部署。
 
 **B. GitHub Pages（备用镜像）**
 
