@@ -14,7 +14,8 @@
     "gen:words": "node scripts/build-words.mjs",
     "gen:roots": "node scripts/build-roots.mjs",
     "gen:daily": "node scripts/build-daily.mjs",
-    "gen:worden": "node scripts/build-word-en.mjs"
+    "gen:worden": "node scripts/build-word-en.mjs",
+    "deploy": "npm run build && node scripts/prepare-upload.mjs && npx --yes wrangler pages deploy eq-upload --project-name=yingchuangdao --branch=main --commit-dirty=true"
   },
   "dependencies": {
     "ts-fsrs": "^5.4.2"

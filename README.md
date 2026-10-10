@@ -6,7 +6,9 @@
 
 ## 📱 手机使用（推荐）
 
-**在线地址（PWA，可装到主屏幕）**：<https://guo-7-rose.github.io/english-quest/>
+**主地址（Cloudflare Pages，国内访问较稳）**：<https://yingchuangdao.pages.dev/>
+
+**备用地址（GitHub Pages）**：<https://guo-7-rose.github.io/english-quest/>
 
 安装步骤：
 
@@ -15,7 +17,9 @@
 3. **Android Chrome**：右上角菜单 → 「添加到主屏幕 / 安装应用」
 4. 之后点主屏幕图标即可全屏打开；**首次打开后断网也能用**（Service Worker 已缓存页面，视频仍需联网）
 
-手机版特性：底部标签栏（面板/单词/词根/语法/复习 + 更多）、44px 触控按钮、全面屏安全区适配。
+> 微信/QQ 内打开无法安装，需先「⋯ → 在浏览器打开」。
+
+手机版特性：底部标签栏（面板/背单词/单词/词根/语法/更多）、44px 触控按钮、全面屏安全区适配、页面内安装引导。
 
 ## 💻 电脑使用（零安装）
 
@@ -113,20 +117,22 @@ npx.cmd tsc --noEmit
 
 站点是纯静态的，任何静态托管都能用。`dist/` 直接上传即可。
 
-**A. Cloudflare Pages（推荐，国内访问较稳）**
+**A. Cloudflare Pages（当前主地址，国内访问较稳）**
 
-1. 打开 <https://dash.cloudflare.com/> → 注册/登录（免费）
-2. 左侧 **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-3. 授权 GitHub，选择仓库 `Guo-7-rose/english-quest`
-4. 构建配置：
-   - Framework preset：**None**
-   - Build command：`npm run build`
-   - Build output directory：`dist`
-   - 环境变量（可选）：`NODE_VERSION` = `22`
-5. Save and Deploy → 得到 `https://<项目名>.pages.dev`
-6. 以后 push 到 GitHub 会自动重新构建发布
+已部署为项目 `yingchuangdao` → <https://yingchuangdao.pages.dev/>
 
-**B. GitHub Pages（当前使用，作为备用）**
+**以后更新只要一条命令**（构建 + 同步 + 上传，全程自动）：
+
+```powershell
+npm.cmd run deploy
+```
+
+首次使用需要授权（只需一次）：`npx wrangler login`
+
+> 为什么不用控制台直传？实测控制台「上传资产 → 部署」会卡住，用 wrangler 命令行 17 秒传完 20 个文件，稳定可重复。
+> 注意 `english-quest.pages.dev` 已被其他用户占用，所以项目名用了 `yingchuangdao`。
+
+**B. GitHub Pages（备用镜像）**
 
 线上站点由 `gh-pages` 分支提供，内容就是 `dist/` 的构建产物。更新流程：
 
