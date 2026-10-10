@@ -6,3 +6,5 @@ dist/*
 data-prep/*.csv
 data-prep/*.log
 _session-inspect/
+eq-upload/
+eq-dist.zip
