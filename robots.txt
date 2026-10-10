@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 英语闯关岛 English Quest —— 词源拆解背单词 + 英语思维语法 + 视频课
+Sitemap: https://guo-7-rose.github.io/english-quest/sitemap.xml
